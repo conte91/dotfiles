@@ -1,0 +1,21 @@
+export myPerforceName=simone.baratta
+export myPerforceProj=cm3
+export PATH=~/local/bin:~/utils:$PATH
+export PKGCONFIG_PATH=$PKGCONFIG_PATH:~/local/lib/pkgconfig
+export LIBRARY_PATH=${HOME}/local/lib:${HOME}/local/lib64
+export LD_LIBRARY_PATH=${HOME}/local/lib:${HOME}/local/lib64:${LD_LIBRARY_PATH}
+module load python #For 2.7 version
+module load automake/1.11.2
+export PYTHONPATH="${HOME}/local/lib/python2.7/site-packages:${PYTHONPATH}"
+
+
+### Personal ###
+export LS_COLORS=$LS_COLORS:'di=1;35'
+### Perforce config
+module load perforce
+export P4PORT=p4master.hh.imgtec.org:1666
+export P4USER=simone.baratta
+export P4CLIENT=simone.baratta_cm3_dev_ws
+echo '########P4 CONFIG#####'
+p4 info
+echo '######################'

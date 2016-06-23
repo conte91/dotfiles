@@ -9,6 +9,9 @@
 (require 'evil)
 (require 'evil-leader)
 (require 'evil-matchit)
+(require 'evil-matchit-systemverilog)
+(plist-put evilmi-plugins 'verilog-mode '((evilmi-systemverilog-get-tag evilmi-systemverilog-jump)))
+
 (require 'evil-surround)
 (require 'evil-nerd-commenter)
 
@@ -186,3 +189,4 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  '(font-lock-variable-name-face ((t (:foreground "green" :weight bold))))
  '(linum ((t (:inherit (shadow default) :foreground "cyan"))))
  '(minibuffer-prompt ((t (:foreground "brightyellow")))))
+(put 'narrow-to-region 'disabled nil)
