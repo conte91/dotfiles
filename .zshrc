@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/snb/.oh-my-zsh
+export ZSH=${HOME}/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -86,7 +86,7 @@ export SAVEHIST=10000
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Get support for module loading / unloading in zsh
-source /mips/tools/platinum/envmodule/init/zsh
+[ -f /mips/tools/platinum/envmodule/init/zsh ] && source /mips/tools/platinum/envmodule/init/zsh
 
 source ~/.shrc_common
 
