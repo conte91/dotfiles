@@ -19,3 +19,7 @@ export P4CLIENT=simone.baratta_cm3_dev_ws
 echo '########P4 CONFIG#####'
 p4 info
 echo '######################'
+
+# LUA correct path
+export LUA_PATH='/home/snb/.luarocks/share/lua/5.3/?.lua;/home/snb/.luarocks/share/lua/5.3/?/init.lua;/home/snb/local/share/lua/5.3/?.lua;/home/snb/local/share/lua/5.3/?/init.lua;/usr/local/share/lua/5.3/?.lua;/usr/local/share/lua/5.3/?/init.lua;/usr/local/lib/lua/5.3/?.lua;/usr/local/lib/lua/5.3/?/init.lua;./?.lua;./?/init.lua'
+export LUA_CPATH='/home/snb/.luarocks/lib/lua/5.3/?.so;/home/snb/local/lib/lua/5.3/?.so;/usr/local/lib/lua/5.3/?.so;/usr/local/lib/lua/5.3/loadall.so;./?.so'
