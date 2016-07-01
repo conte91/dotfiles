@@ -177,3 +177,7 @@ i_want_to_delete(){
    lsof -- `find $1`
 
 }
+
+lua_path(){
+   lua -e "print (package.path..'\n'..package.cpath)"
+}
