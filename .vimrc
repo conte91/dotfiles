@@ -1,12 +1,16 @@
 set nocompatible
 filetype off
 
+let mapleader = " "
+
+set rtp+=~/utils/vim
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'systemverilog.vim'
 Plugin 'ctrlp.vim'
+Plugin 'matchit.zip'
 call vundle#end()
 filetype plugin indent on
 
@@ -15,6 +19,10 @@ set si
 set et
 set ts=3
 set sw=3
+
+
+
+
 map <C-n> :tabnew<CR>
 noremap <C-k> :bnext<CR>
 noremap <C-j> :bprev<CR>
@@ -44,6 +52,11 @@ command -nargs=1 -complete=file Class tabnew | edit <args>.h | sp | edit <args>.
 command CDC cd %:p:h
 command -nargs=1 Grr vimgrep /<args>/ ** | cw
 command PEdit !p4 edit %
+command PLogin !p4 login
+
+nnoremap <Leader>pe :PEdit<CR>
+nnoremap <Leader>pl :PLogin<CR>
+
 command Home cd $MIPS_HOME
 set tags=./.vimtags;
 "let g:easytags_always_enabled = 1
@@ -55,6 +68,7 @@ aug CppFormatting
 aug END
 
 autocmd BufRead,BufNewFile *.sv,*.svh set filetype=systemverilog
+autocmd BufRead,BufNewFile sim.log set filetype=cmlog
 let g:projectManagerFileName = ".vimproject"
 
 "Highlight comment color
@@ -67,3 +81,5 @@ let g:ctrlp_map = '<C-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_root_markers = 'sys_base'
+
+colorscheme desert
