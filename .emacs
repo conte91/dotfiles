@@ -178,6 +178,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(diff-added ((t (:inherit diff-changed :background "green"))))
+ '(diff-changed ((t (:foreground "black"))))
+ '(diff-context ((t (:weight extra-light))))
+ '(diff-removed ((t (:inherit diff-changed :background "#ff0000"))))
  '(elscreen-tab-other-screen-face ((t (:background "color-243" :foreground "black" :underline t))))
  '(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face :weight bold))))
  '(font-lock-comment-face ((t (:foreground "color-42"))))
