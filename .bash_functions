@@ -1,5 +1,5 @@
 mipsgrr(){
-   [ -z $MIPS_HOME ] && echo "MIPS_HOME not set" || grep -R "$@" "$MIPS_HOME"
+   [ -z $MIPS_HOME ] && echo "MIPS_HOME not set" || grep -R "$@" "$MIPS_HOME" 2>/dev/null
 }
 mipsfungrr(){
    if [ $# != 1 ]
@@ -180,4 +180,9 @@ i_want_to_delete(){
 
 lua_path(){
    lua -e "print (package.path..'\n'..package.cpath)"
+}
+
+find_regressions(){
+   echo 'Check this paths:'
+   find . -maxdepth 4 -type d -name vbuild -or -name sim_results -or -name DVEfiles -or -name 'regress_*' -or -name '*.vdb' -or -name '*.urg.report' -exec dirname '{}' ';' | sort | uniq
 }

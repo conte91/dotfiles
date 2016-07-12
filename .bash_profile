@@ -1,0 +1,1 @@
+source .shrc_paths

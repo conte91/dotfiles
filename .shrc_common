@@ -1,12 +1,8 @@
+source .shrc_paths
 export myPerforceName=simone.baratta
 export myPerforceProj=cm3
-export PATH=~/local/bin:~/utils:$PATH
-export PKGCONFIG_PATH=$PKGCONFIG_PATH:~/local/lib/pkgconfig
-export LIBRARY_PATH=${HOME}/local/lib:${HOME}/local/lib64
-export LD_LIBRARY_PATH=${HOME}/local/lib:${HOME}/local/lib64:${LD_LIBRARY_PATH}
 module load python #For 2.7 version
 module load automake/1.11.2
-export PYTHONPATH="${HOME}/local/lib/python2.7/site-packages:${PYTHONPATH}"
 
 
 ### Personal ###
@@ -16,10 +12,11 @@ module load perforce
 export P4PORT=p4master.hh.imgtec.org:1666
 export P4USER=simone.baratta
 export P4CLIENT=simone.baratta_cm3_dev_ws
+export P4IGNORE=${HOME}/utils/p4ignore.txt
+export P4CONFIG=.p4config
 echo '########P4 CONFIG#####'
 p4 info
 echo '######################'
 
-# LUA correct path
-export LUA_PATH='/home/snb/.luarocks/share/lua/5.3/?.lua;/home/snb/.luarocks/share/lua/5.3/?/init.lua;/home/snb/local/share/lua/5.3/?.lua;/home/snb/local/share/lua/5.3/?/init.lua;/usr/local/share/lua/5.3/?.lua;/usr/local/share/lua/5.3/?/init.lua;/usr/local/lib/lua/5.3/?.lua;/usr/local/lib/lua/5.3/?/init.lua;./?.lua;./?/init.lua'
-export LUA_CPATH='/home/snb/.luarocks/lib/lua/5.3/?.so;/home/snb/local/lib/lua/5.3/?.so;/usr/local/lib/lua/5.3/?.so;/usr/local/lib/lua/5.3/loadall.so;./?.so'
+export EDITOR=vim
+
