@@ -21,8 +21,6 @@ set ts=3
 set sw=3
 
 
-
-
 map <C-n> :tabnew<CR>
 noremap <C-k> :bnext<CR>
 noremap <C-j> :bprev<CR>
@@ -39,15 +37,19 @@ noremap <C-h> :tabprev<CR>
 noremap <C-l> :tabnext<CR>
 imap <C-h> <ESC><C-h>
 imap <C-l> <ESC><C-l>
+imap <Tab> <ESC>==i
+inoremap <S-Tab> <Tab>
 
 "Grep word under cursor in current directory
 nnoremap <C-g> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw <CR>
 set mouse=a
 
+"Use very magic regexes by default
+nnoremap / /\v
+
 "autocmd  BufNewFile,BufRead *.html noremap <silent> <C-F> :%s/à/\&agrave;/g <Bar> %s/è/\&egrave;/g <Bar> %s/é/\&egrave;/g <Bar> %s/ì/\&igrave;/g <Bar> %s/ò/\&ograve;/g <Bar> %sù/\&ugrave;/g <CR>
 "autocmd BufNewFile,BufRead *.html imap <silent> <C-F> <ESC><ESC><C-f>i
 set backspace=indent,eol,start  " more powerful backspacing
-set foldmethod=indent
 command -nargs=1 -complete=file Class tabnew | edit <args>.h | sp | edit <args>.cpp
 command CDC cd %:p:h
 command -nargs=1 Grr vimgrep /<args>/ ** | cw
@@ -56,6 +58,7 @@ command PLogin !p4 login
 
 nnoremap <Leader>pe :PEdit<CR>
 nnoremap <Leader>pl :PLogin<CR>
+nnoremap <silent> <Leader>/ <C-l>
 
 command Home cd $MIPS_HOME
 set tags=./.vimtags;
@@ -71,9 +74,6 @@ autocmd BufRead,BufNewFile *.sv,*.svh set filetype=systemverilog
 autocmd BufRead,BufNewFile sim.log set filetype=cmlog
 let g:projectManagerFileName = ".vimproject"
 
-"Highlight comment color
-highlight Comment ctermfg=blue
-
 set modeline
 set number
 
@@ -83,3 +83,15 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_root_markers = 'sys_base'
 
 colorscheme desert
+"Highlight comment color
+highlight Folded ctermfg=blue cterm=bold
+"Vimdiff
+highlight DiffAdd cterm=none ctermbg=Green ctermfg=DarkGrey
+highlight DiffDelete cterm=none ctermbg=Red ctermfg=DarkGrey
+highlight DiffChange cterm=none ctermbg=LightGrey ctermfg=Black
+highlight DiffText cterm=bold ctermbg=White ctermfg=Black
+
+set listchars=tab:>.,trail:§
+set list
+
+set foldmethod=indent
