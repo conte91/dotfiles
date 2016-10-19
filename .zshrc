@@ -93,3 +93,5 @@ source ~/.shrc_common
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 [ -f ~/.bash_functions ] && source ~/.bash_functions
 export TERM=xterm-256color
+
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local

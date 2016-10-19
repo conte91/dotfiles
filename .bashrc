@@ -4,3 +4,5 @@ source /mips/tools/platinum/envmodule/init/bash
 source ~/.shrc_common
 source ~/.bash_aliases
 source ~/.bash_functions
+
+[ -f ~/.bashrc.local ] && source ~/.bashrc.local
