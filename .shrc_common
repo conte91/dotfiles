@@ -20,3 +20,4 @@ echo '######################'
 
 export EDITOR=vim
 
+[ -f ~/.shrc.local ] && source ~/.shrc.local
