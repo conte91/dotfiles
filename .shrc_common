@@ -1,17 +1,12 @@
 source .shrc_paths
 export myPerforceName=simone.baratta
 export myPerforceProj=cm3
-module load python #For 2.7 version
-module load automake/1.11.2
-
 
 ### Personal ###
 export LS_COLORS=$LS_COLORS:'di=1;35'
 ### Perforce config
-module load perforce
 export P4PORT=p4master.hh.imgtec.org:1666
 export P4USER=simone.baratta
-export P4CLIENT=simone.baratta_cm3_dev_ws
 export P4IGNORE=${HOME}/utils/p4ignore.txt
 export P4CONFIG=.p4config
 echo '########P4 CONFIG#####'

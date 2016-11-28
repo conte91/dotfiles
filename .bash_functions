@@ -186,3 +186,7 @@ find_regressions(){
    echo 'Check this paths:'
    find . -maxdepth 4 -type d -name vbuild -or -name sim_results -or -name DVEfiles -or -name 'regress_*' -or -name '*.vdb' -or -name '*.urg.report' -exec dirname '{}' ';' | sort | uniq
 }
+
+p4_ws_changes () {
+   p4 changes -c "./..." --me
+}
