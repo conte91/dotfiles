@@ -96,3 +96,7 @@ set listchars=tab:>.,trail:§
 set list
 
 set foldmethod=indent
+
+" gf should not use = or , if run from a wise person
+set isfname-=,
+set isfname-==
