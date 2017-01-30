@@ -46,7 +46,7 @@ nnoremap <C-g> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw <CR>
 set mouse=a
 
 "Use very magic regexes by default
-nnoremap / /\v
+"nnoremap / /\v
 
 "autocmd  BufNewFile,BufRead *.html noremap <silent> <C-F> :%s/à/\&agrave;/g <Bar> %s/è/\&egrave;/g <Bar> %s/é/\&egrave;/g <Bar> %s/ì/\&igrave;/g <Bar> %s/ò/\&ograve;/g <Bar> %sù/\&ugrave;/g <CR>
 "autocmd BufNewFile,BufRead *.html imap <silent> <C-F> <ESC><ESC><C-f>i
@@ -61,6 +61,8 @@ nnoremap <Leader>pe :PEdit<CR>
 nnoremap <Leader>pl :PLogin<CR>
 nnoremap <silent> <Leader>/ <C-l>
 
+"Search for visual selection with *
+vnoremap * "vy/<C-R>v<CR>
 command Home cd $MIPS_HOME
 set tags=./.vimtags;
 "let g:easytags_always_enabled = 1
