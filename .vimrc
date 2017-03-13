@@ -12,6 +12,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'systemverilog.vim'
 Plugin 'ctrlp.vim'
 Plugin 'matchit.zip'
+Plugin 'vim-airline/vim-airline'
 call vundle#end()
 filetype plugin indent on
 
