@@ -16,3 +16,7 @@ echo '######################'
 export EDITOR=vim
 
 [ -f ~/.shrc.local ] && source ~/.shrc.local
+
+eval $(thefuck --alias)
+eval $(thefuck --alias FUCK)
+

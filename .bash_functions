@@ -191,4 +191,8 @@ p4_ws_changes () {
    p4 changes -c "./..." --me
 }
 
+hello() {
+   cowsay 'Hello!'
+}
+
 # vim: set filetype=sh :

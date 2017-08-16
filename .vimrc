@@ -12,6 +12,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'systemverilog.vim'
 Plugin 'ctrlp.vim'
+Plugin 'tabular'
 Plugin 'matchit.zip'
 Plugin 'vim-airline/vim-airline'
 call vundle#end()
@@ -51,6 +52,7 @@ nnoremap <F6><F6> <ESC>:!tail -f %<Return>
 "Grep word under cursor in current directory
 nnoremap <C-g> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw <CR>
 set mouse=a
+set noacd
 
 "Use very magic regexes by default
 "nnoremap / /\v

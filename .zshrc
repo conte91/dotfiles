@@ -56,6 +56,8 @@ plugins=(git)
 export PATH="/usr/kerberos/bin:/usr/share/centrifydc/bin:.:/home/snb/scripts:/home/snb/bin:/bin:/usr/bin:/usr/lib/X11:/usr/include/X11:/usr/X11R6/bin:/sbin:/usr/sbin:/usr/local/bin:/home/snb/local/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
+fpath=(~/dotfiles/zsh_completion $fpath)
+
 source $ZSH/oh-my-zsh.sh
 
 export HISTSIZE=10000
