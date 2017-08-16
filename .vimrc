@@ -5,6 +5,7 @@ filetype off
 let mapleader = " "
 
 set rtp+=~/utils/vim
+set rtp+=~/dotfiles/vim
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -42,6 +43,11 @@ imap <C-l> <ESC><C-l>
 imap <Tab> <ESC>==i
 inoremap <S-Tab> <Tab>
 
+" Update file
+nnoremap <F5> <ESC>:e!<Return>
+nnoremap <F6> <ESC>:e!<Return>G
+nnoremap <F6><F6> <ESC>:!tail -f %<Return>
+
 "Grep word under cursor in current directory
 nnoremap <C-g> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw <CR>
 set mouse=a
@@ -58,6 +64,9 @@ command -nargs=1 Grr vimgrep /<args>/ ** | cw
 command PEdit !p4 edit %
 command PLogin !p4 login
 
+nnoremap <Leader>gh :call GrrCWHere()<CR>
+nnoremap <Leader>ga :call GrrCWAll()<CR>
+nnoremap <Leader>gg :Grr<CR>
 nnoremap <Leader>pe :PEdit<CR>
 nnoremap <Leader>pl :PLogin<CR>
 nnoremap <silent> <Leader>/ <C-l>
