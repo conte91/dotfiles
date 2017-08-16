@@ -190,3 +190,7 @@ find_regressions(){
 p4_ws_changes () {
    p4 changes -c "./..." --me
 }
+
+hello() {
+   cowsay 'Hello!'
+}

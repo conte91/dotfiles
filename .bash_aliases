@@ -1,6 +1,7 @@
 alias acesim='cd $ACESIM_HOME'
 alias sanity='cd $SANITY_HOME'
 alias e='emacs -nw'
+alias fuck-it='export THEFUCK_REQUIRE_CONFIRMATION=False; fuck; export THEFUCK_REQUIRE_CONFIRMATION=True'
 alias grid='qsub_wrapper -q linux_checkin -sync y QCMD'
 alias last_coverage='cd /home/cm_scratch/xbuild.cm3/jenkins/workspace/cm3.5_nightly_coverage/run/latest'
 alias last_regress_mc='cd /home/cm_scratch/xbuild.cm3/jenkins/workspace/cm3.5_nightly_coverage/run/latest'
