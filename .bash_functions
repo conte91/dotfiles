@@ -190,3 +190,5 @@ find_regressions(){
 p4_ws_changes () {
    p4 changes -c "./..." --me
 }
+
+# vim: set filetype=sh :
