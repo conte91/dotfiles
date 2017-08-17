@@ -1,13 +1,12 @@
 scriptencoding utf-8
 set nocompatible
 filetype off
+set rtp+=~/utils/vim
+set rtp+=~/dotfiles/vim
+set rtp+=~/.vim/bundle/Vundle.vim
 
 let mapleader = " "
 
-set rtp+=~/utils/vim
-set rtp+=~/dotfiles/vim
-
-set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'systemverilog.vim'
@@ -16,19 +15,22 @@ Plugin 'tabular'
 Plugin 'matchit.zip'
 Plugin 'vim-airline/vim-airline'
 call vundle#end()
+" Now we can turn our filetype functionality back on
 filetype plugin indent on
 
 syntax on
 set si
 set et
-set ts=3
-set sw=3
+set ts=4
+set sw=4
 
 
 map <C-n> :tabnew<CR>
 noremap <C-k> :bnext<CR>
 noremap <C-j> :bprev<CR>
-"nnoremap <C-m> :w<CR>:make<CR>
+noremap <C-h> :tabprev<CR>
+noremap <C-l> :tabnext<CR>
+nnoremap <C-m> :w<CR>:make<CR>
 map <S-Right> :tn<CR>
 map <S-Left> :tp<CR>
 map [a :cp<CR>
@@ -36,13 +38,10 @@ map [b :cn<CR>
 imap <C-n> <ESC>:tabnew<CR>
 imap <C-j> <ESC><C-j>
 imap <C-k> <ESC><C-k>
-inoremap <C-S-n> <C-n>
-noremap <C-h> :tabprev<CR>
-noremap <C-l> :tabnext<CR>
 imap <C-h> <ESC><C-h>
 imap <C-l> <ESC><C-l>
-imap <Tab> <ESC>==i
-inoremap <S-Tab> <Tab>
+inoremap <C-S-n> <C-n>
+inoremap <S-Tab> <ESC>==i
 
 " Update file
 nnoremap <F5> <ESC>:e!<Return>
@@ -54,9 +53,13 @@ nnoremap <C-g> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw <CR>
 set mouse=a
 set noacd
 
-"Use very magic regexes by default
-"nnoremap / /\v
+command RiseVol !mpc volume +5
+command LowerVol !mpc volume -5 
+imap <ScrollWheelUp> <ESC>:RiseVol<CR><CR>i
+map <ScrollWheelUp> :RiseVol<CR><CR>
 
+imap <ScrollWheelDown> <ESC>:LowerVol<CR><CR>i
+map <ScrollWheelDown> :LowerVol<CR><CR>
 "autocmd  BufNewFile,BufRead *.html noremap <silent> <C-F> :%s/à/\&agrave;/g <Bar> %s/è/\&egrave;/g <Bar> %s/é/\&egrave;/g <Bar> %s/ì/\&igrave;/g <Bar> %s/ò/\&ograve;/g <Bar> %sù/\&ugrave;/g <CR>
 "autocmd BufNewFile,BufRead *.html imap <silent> <C-F> <ESC><ESC><C-f>i
 set backspace=indent,eol,start  " more powerful backspacing
@@ -79,14 +82,14 @@ command Home cd $MIPS_HOME
 set tags=./.vimtags;
 "let g:easytags_always_enabled = 1
 "let g:easytags_dynamic_files = 1
-let g_easytags_enabled = 0
+"let g_easytags_enabled = 0
 
+"Useful for auto formatting code
 aug CppFormatting
   au BufNewFile,BufRead *.cpp set formatprg=astyle\ -A2\ -s2\ -j
 aug END
 
 autocmd BufRead,BufNewFile *.sv,*.svh set filetype=systemverilog
-autocmd BufRead,BufNewFile sim.log set filetype=cmlog
 let g:projectManagerFileName = ".vimproject"
 
 set modeline
@@ -95,7 +98,6 @@ set number
 let g:ctrlp_map = '<C-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_root_markers = 'sys_base'
 
 colorscheme desert
 "Highlight comment color
@@ -114,3 +116,6 @@ set foldmethod=indent
 " gf should not use = or , if run from a wise person
 set isfname-=,
 set isfname-==
+"License files
+command Beerware r !cat ~/.licenses/beerware
+command MIT call LicenseMIT()
