@@ -1,5 +1,6 @@
 scriptencoding utf-8
 set nocompatible
+
 filetype off
 set rtp+=~/utils/vim
 set rtp+=~/dotfiles/vim
@@ -7,14 +8,19 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 let mapleader = " "
 
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'systemverilog.vim'
-Plugin 'ctrlp.vim'
-Plugin 'tabular'
-Plugin 'matchit.zip'
-Plugin 'vim-airline/vim-airline'
-call vundle#end()
+try
+    call vundle#begin()
+    Plugin 'VundleVim/Vundle.vim'
+    Plugin 'systemverilog.vim'
+    Plugin 'ctrlp.vim'
+    Plugin 'tabular'
+    Plugin 'matchit.zip'
+    Plugin 'vim-airline/vim-airline'
+    call vundle#end()
+catch /^Vim\%((\a\+)\)\=:E117/ "catch error E117 (function unknown)
+    " Just pass if Vundle is not installed
+endtry
+
 " Now we can turn our filetype functionality back on
 filetype plugin indent on
 
