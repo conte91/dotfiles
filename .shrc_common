@@ -8,6 +8,6 @@ export EDITOR=vim
 
 [ -f ~/.shrc.local ] && source ~/.shrc.local
 
-which thefuck > /dev/null && eval $(thefuck --alias)
-which thefuck > /dev/null && eval $(thefuck --alias FUCK)
+which thefuck > /dev/null 2>&1 && eval $(thefuck --alias)
+which thefuck > /dev/null 2>&1 && eval $(thefuck --alias FUCK)
 
