@@ -3,7 +3,3 @@ export PKGCONFIG_PATH=$PKGCONFIG_PATH:${HOME}/local/lib/pkgconfig
 export LIBRARY_PATH=${HOME}/local/lib:${HOME}/local/lib64
 export LD_LIBRARY_PATH=${HOME}/local/lib:${HOME}/local/lib64:${LD_LIBRARY_PATH}
 export PYTHONPATH="${HOME}/local/lib/python2.7/site-packages:${PYTHONPATH}"
-# LUA correct path
-export LUA_PATH='/home/snb/.luarocks/share/lua/5.3/?.lua;/home/snb/.luarocks/share/lua/5.3/?/init.lua;/home/snb/local/share/lua/5.3/?.lua;/home/snb/local/share/lua/5.3/?/init.lua;/usr/local/share/lua/5.3/?.lua;/usr/local/share/lua/5.3/?/init.lua;/usr/local/lib/lua/5.3/?.lua;/usr/local/lib/lua/5.3/?/init.lua;./?.lua;./?/init.lua'
-export LUA_CPATH='/home/snb/.luarocks/lib/lua/5.3/?.so;/home/snb/local/lib/lua/5.3/?.so;/usr/local/lib/lua/5.3/?.so;/usr/local/lib/lua/5.3/loadall.so;./?.so'
-

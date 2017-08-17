@@ -52,16 +52,13 @@ CASE_SENSITIVE="true"
 plugins=(git)
 
 # User configuration
-
-export PATH="/usr/kerberos/bin:/usr/share/centrifydc/bin:.:/home/snb/scripts:/home/snb/bin:/bin:/usr/bin:/usr/lib/X11:/usr/include/X11:/usr/X11R6/bin:/sbin:/usr/sbin:/usr/local/bin:/home/snb/local/bin"
-# export MANPATH="/usr/local/man:$MANPATH"
-
 fpath=(~/dotfiles/zsh_completion $fpath)
 
 source $ZSH/oh-my-zsh.sh
 
 export HISTSIZE=10000
 export SAVEHIST=10000
+setopt autocd
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -86,9 +83,6 @@ export SAVEHIST=10000
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# Get support for module loading / unloading in zsh
-[ -f /mips/tools/platinum/envmodule/init/zsh ] && source /mips/tools/platinum/envmodule/init/zsh
 
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 [ -f ~/.bash_functions ] && source ~/.bash_functions

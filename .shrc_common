@@ -1,22 +1,13 @@
 source .shrc_paths
-export myPerforceName=simone.baratta
-export myPerforceProj=cm3
 
 ### Personal ###
 export LS_COLORS=$LS_COLORS:'di=1;35'
-### Perforce config
-export P4PORT=p4master.hh.imgtec.org:1666
-export P4USER=simone.baratta
-export P4IGNORE=${HOME}/utils/p4ignore.txt
-export P4CONFIG=.p4config
-echo '########P4 CONFIG#####'
-p4 info
-echo '######################'
+export WINEARCH=win32
 
 export EDITOR=vim
 
 [ -f ~/.shrc.local ] && source ~/.shrc.local
 
-eval $(thefuck --alias)
-eval $(thefuck --alias FUCK)
+which thefuck > /dev/null && eval $(thefuck --alias)
+which thefuck > /dev/null && eval $(thefuck --alias FUCK)
 
