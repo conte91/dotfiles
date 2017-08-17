@@ -105,6 +105,16 @@ p4_ws_changes () {
    p4 changes -c "./..." --me
 }
 
+simple_http_server() {
+   [ -z $1 ] && local M_PORT=31337 || local M_PORT=$1
+   python -c "import SimpleHTTPServer;import SocketServer;print 'Starting server on port $M_PORT...';SocketServer.TCPServer(('', $M_PORT), SimpleHTTPServer.SimpleHTTPRequestHandler).serve_forever()"
+}
+
+vimtool() {
+   thepath=`which $1`
+   vim "$thepath"
+}
+
 hello() {
    cowsay 'Hello!'
 }
