@@ -16,6 +16,6 @@ alias fuck='$(thefuck $(fc -ln -1))'
 alias FUCK='fuck'
 alias fuck-it='export THEFUCK_REQUIRE_CONFIRMATION=False; fuck; export THEFUCK_REQUIRE_CONFIRMATION=True'
 
-alias wow='git status'
+alias wow='git status -- .'
 alias such='git'
 alias very='git'
