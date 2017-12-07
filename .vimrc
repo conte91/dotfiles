@@ -132,7 +132,7 @@ set list
 set foldmethod=indent
 
 " This to exclude when expanding globs
-set wildignore=*.o,*.obj,*.bin,*.so,*.a,*.d
+set wildignore=*.o,*.obj,*.bin,*.so,*.a,*.d,*.class
 
 " gf should not use = or , if run from a wise person
 set isfname-=,
