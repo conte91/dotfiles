@@ -1,6 +1,15 @@
 export PATH=${HOME}/local/bin:${HOME}/utils:$PATH
-export PKGCONFIG_PATH=$PKGCONFIG_PATH:${HOME}/local/lib/pkgconfig
+# Pip path
+export PATH=${HOME}/.local/bin:$PATH
+export PATH=${HOME}/.cargo/bin:$PATH
+export PKG_CONFIG_PATH=${HOME}/local/lib/pkgconfig:${PKG_CONFIG_PATH}
 export LIBRARY_PATH=${HOME}/local/lib:${HOME}/local/lib64
 export LD_LIBRARY_PATH=${HOME}/local/lib:${HOME}/local/lib64:${LD_LIBRARY_PATH}
 export PYTHONPATH="${HOME}/local/lib/python2.7/site-packages:${PYTHONPATH}"
-export CPATH="${HOME}/local/include"
+export CPATH="${HOME}/local/include:${CPATH}"
+
+if which luarocks >/dev/null 2>/dev/null
+then
+	eval "`luarocks path`"
+fi
+
