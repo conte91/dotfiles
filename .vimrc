@@ -16,6 +16,8 @@ try
     Plugin 'tabular'
     Plugin 'matchit.zip'
     Plugin 'vim-airline/vim-airline'
+    Plugin 'neomake/neomake'
+    Plugin 'AutoTag'
     call vundle#end()
 catch /^Vim\%((\a\+)\)\=:E117/ "catch error E117 (function unknown)
     " Just pass if Vundle is not installed
@@ -36,7 +38,10 @@ noremap <C-k> :bnext<CR>
 noremap <C-j> :bprev<CR>
 noremap <C-h> :tabprev<CR>
 noremap <C-l> :tabnext<CR>
-nnoremap <Leader><CR> <ESC>:w<CR>:make<CR>
+
+" Neomake syntax parsing
+let g:neomake_make_maker = { 'exe': 'sh', 'args': '-c "make -j1 2>&1"'}
+nnoremap <Leader><CR> <ESC>:w<CR>:Neomake! make<CR>
 map <S-Right> :tn<CR>
 map <S-Left> :tp<CR>
 imap <C-n> <ESC>:tabnew<CR>
@@ -61,8 +66,8 @@ nnoremap <C-g> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw <CR>
 set mouse=a
 set noacd
 
-command RiseVol !mpc volume +5
-command LowerVol !mpc volume -5 
+command RiseVol !pactl set-sink-volume 0 +1\%
+command LowerVol !pactl set-sink-volume 0 -1\%
 imap <ScrollWheelUp> <ESC>:RiseVol<CR><CR>i
 map <ScrollWheelUp> :RiseVol<CR><CR>
 
@@ -96,7 +101,7 @@ nnoremap <silent> <Leader>/ <C-l>
 "Search for visual selection with *
 vnoremap * "vy/<C-R>v<CR>
 command Home cd $MIPS_HOME
-set tags=./tags;,tags;
+set tags=./.tags;,.tags;
 "let g:easytags_always_enabled = 1
 "let g:easytags_dynamic_files = 1
 "let g_easytags_enabled = 0
@@ -115,8 +120,14 @@ set number
 let g:ctrlp_map = '<C-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_max_files = 15000
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 colorscheme desert
+
+"Highlight lines longer than 80 chars
+":match ErrorMsg '\%>80v.\+'
+
 "Highlight comment color
 highlight Folded ctermfg=blue cterm=bold
 "Vimdiff
@@ -125,6 +136,7 @@ highlight DiffDelete cterm=none ctermbg=Red ctermfg=DarkGrey
 highlight DiffChange cterm=none ctermbg=LightGrey ctermfg=Black
 highlight DiffText cterm=bold ctermbg=White ctermfg=Black
 highlight Search ctermfg=grey ctermbg=darkgrey
+highlight cComment ctermfg=lightblue
 
 set listchars=tab:»\ ,trail:§
 set list
