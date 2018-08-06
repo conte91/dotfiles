@@ -14,3 +14,4 @@ export GIT_LFS_SKIP_SMUDGE=1
 which thefuck > /dev/null 2>&1 && eval $(thefuck --alias)
 which thefuck > /dev/null 2>&1 && eval $(thefuck --alias FUCK)
 
+which nvim > /dev/null 2>&1 && alias vim='nvim' && alias vi='nvim'
