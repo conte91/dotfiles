@@ -1,0 +1,3 @@
+#compdef viewDot
+
+_arguments "1:filename:_files -g '*.dot'"
