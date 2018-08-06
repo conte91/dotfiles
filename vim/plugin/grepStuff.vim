@@ -5,7 +5,7 @@ function! CMGetLine()
 endfunction
 
 function! GrrGrep(pattern, dirname)
-   exec 'vimgrep /' . a:pattern . '/j ' . a:dirname . '/**'
+   silent exec "grep -RnIHe '" . a:pattern . "' " . a:dirname . '/**'
    cw
    let w:quickfix_title = 'Matches for ' . a:pattern . ' in ' . a:dirname
 endfunction
@@ -29,16 +29,12 @@ endfunction
 
 function! GrrFunction()
    call inputsave()
-   let pattern = input('What? <' . expand("<cword>") . '> ')
-   if pattern == ""
-      let pattern = expand("<cword>")
-   endif
-   let dirname = input('Where? <' . expand("%:p:h") . '> ')
-   if dirname == ""
-      let dirname = expand("%:p:h")
-   endif
+   let pattern = input('What? ', expand("<cword>"))
+   let dirname = input('Where? ', expand("%:p:h"), "file")
    call inputrestore()
    call GrrGrep(pattern, dirname)
 endfunction
 
 command! Grr call GrrFunction()
+
+" vim: et sw=3 ts=3:
