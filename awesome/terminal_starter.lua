@@ -1,0 +1,1 @@
+/home/simo/Sblargaba/awesome/terminal_starter.lua

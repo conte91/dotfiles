@@ -1,0 +1,1 @@
+/home/simo/Sblargaba/awesome/exec_popup.lua
