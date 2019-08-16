@@ -1,0 +1,126 @@
+# Use Xft?
+use_spacer none
+use_xft yes
+xftfont Terminus:size=8
+xftalpha 0.8
+text_buffer_size 2048
+# Update interval in seconds
+update_interval 1.0
+# This is the number of times Conky will update before quitting.
+# Set to zero to run forever.
+total_run_times 0
+# Create own window instead of using desktop (required in nautilus)
+own_window yes
+own_window_type desktop
+own_window_hints below,skip_taskbar,undecorated,skip_pager
+
+background no
+#own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+# Use double buffering (reduces flicker, may not work for everyone)
+double_buffer yes
+# Minimum size of text area
+minimum_size 350
+maximum_width 350
+# Draw shades?
+draw_shades yes
+# Draw outlines?
+draw_outline no
+# Draw borders around text
+draw_borders no
+# Stippled borders?
+stippled_borders 0
+# border margins
+#DEPRECATED:border_margin 4
+border_inner_margin 4
+# border width
+border_width 1
+# Default colors and also border colors
+default_color white
+default_shade_color black
+default_outline_color white
+own_window_colour 222222
+own_window_transparent no
+# Text alignment, other possible values are commented
+#alignment top_left
+alignment top_right
+#alignment bottom_left
+#alignment bottom_right
+# Gap between borders of screen and text
+# same thing as passing -x at command line
+gap_x 10
+gap_y 30
+# Subtract file system buffers from used memory?
+no_buffers yes
+# set to yes if you want all text to be in uppercase
+uppercase no
+# number of cpu samples to average
+# set to 1 to disable averaging
+cpu_avg_samples 2
+# number of net samples to average
+# set to 1 to disable averaging
+net_avg_samples 2
+# Force UTF8? note that UTF8 support required XFT
+override_utf8_locale yes
+# Add spaces to keep things from moving about? This only affects certain objects.
+use_spacer none
+# Use short unit
+short_units on
+ 
+# Colors
+default_color DCDCDC #Gainsboro
+color0 7FFF00 #Chartreuse
+color1 FFA07A #LightSalmon
+color2 FF8C00 #Darkorange
+color3 778899 #LightSlateGrey
+color4 FFD700 #Gold
+color5 FFDEAD #NavajoWhite
+color6 00BFFF #DeepSkyBlue
+color7 48D1CC #MediumTurquoise
+color8 FFFF00 #Yellow
+color9 FF0000 #Red
+ 
+TEXT
+${image ~/My_Projects/Misc_conky/archlogo.png -p 268,19 -s 80x80}
+${voffset 0}
+${goto 99}Kernel: $kernel $machine
+${goto 99}Uptime: $uptime_short
+${goto 99}Users logon: $user_number
+
+${voffset 5}${alignc 72}${font Digital Readout Thick Upright:size=36}${time %H:%M:%S}${font}
+${voffset 5}${alignc}${time %A %d %B %Y}
+ 
+${goto 33}${font :style=Bold:pixelsize=12}BAT${goto 90}${color 98FB98}${battery_bar 6,150 BAT0}${color}${goto 250}${battery BAT0}
+
+${font weather:pixelsize=32}${alignc}${acpitemp} °C
+#OK
+${goto 33}${font :style=Bold:pixelsize=12}Cpu1 @${freq_g 1}GHz${goto 150}${voffset -10}${cpugraph  cpu1 20,90 FFF6CD FF0B00 -t}${voffset 9}${goto 250}${font :style=Bold:pixelsize=14}${cpu cpu1}%${font}
+${goto 33}${font :style=Bold:pixelsize=12}Cpu2 @${freq_g 2}GHz${goto 150}${voffset -10}${cpugraph  cpu2 20,90 FFF6CD FF0B00 -t}${voffset 9}${goto 250}${font :style=Bold:pixelsize=14}${cpu cpu2}%${font}
+${goto 33}${font :style=Bold:pixelsize=12}Cpu3 @${freq_g 3}GHz${goto 150}${voffset -10}${cpugraph  cpu3 20,90 FFF6CD FF0B00 -t}${voffset 9}${goto 250}${font :style=Bold:pixelsize=14}${cpu cpu3}%${font}
+${goto 33}${font :style=Bold:pixelsize=12}Cpu4 @${freq_g 4}GHz${goto 150}${voffset -10}${cpugraph  cpu4 20,90 FFF6CD FF0B00 -t}${voffset 9}${goto 250}${font :style=Bold:pixelsize=14}${cpu cpu4}%${font}
+
+
+${alignc}${font :style=Bold:pixelsize=12}RAM:${font} $mem v $memmax
+${alignc}${color A0CCFF}${membar 4,180}${color}
+
+
+${alignc}${font :style=Bold:pixelsize=12}Swap:${font} $swap v $swapmax
+${alignc}${color A0CCFF}${swapbar 4,180}${color}
+
+${alignc}${font :style=Bold:pixelsize=12}Load: ${font}${color C7FF8E}$loadavg${color}
+
+${alignc}${font :style=Bold:pixelsize=12}Processes: ${font}${color C7FF8E}$processes${color}
+
+${goto 100}HIGHEST CPU${goto 238}HIGHEST MEM
+${goto 100}${color #ddaa00}${top name 1}${goto 238}${color #ddaa00}${top_mem name 1}${color}
+${goto 100}${color lightgrey}${top name 2}${goto 238}${top_mem name 2}${color}
+${goto 100}${color lightgrey}${top name 3}${goto 238}${top_mem name 3}${color}
+
+# 
+#${if_running banshee}
+#${voffset -8}${goto 33}${font :style=Bold:pixelsize=12}Audio${font}${voffset -12} ${font Poky:pixelsize=22}l${font}
+#${voffset -18}${goto 120}${alignc}${exec ~/conky_red/scripts/conkyBanshee.py --datatype=AR}
+#${font Terminus:italic:size=8}${color 83A1FF}${alignc}${exec ~/conky_red/scripts/conkyBanshee.py --datatype=TI}${font}
+#${alignc}${exec ~/conky_red/scripts/conkyBanshee.py --datatype=AL}
+#${voffset 4}${goto 120}${color 83A1FF}${font Poky:size=25}${alignc 9}${exec python ~/conky_red/scripts/conkyBanshee_status.py}${font}
+#${voffset 4}${goto 120}${color grey}POS ${exec ~/conky_red/scripts/conkyBanshee.py --datatype=PT} / ${exec ~/conky_red/scripts/conkyBanshee.py --datatype=LE} / ${exec ~/conky_red/scripts/conkyBanshee.py --datatype=PP} % ${color lightblue}${execbar ~/conky_red/scripts/conkyBanshee.py --datatype=PP 10} #size bar - see > default_bar_size
+#${endif}
