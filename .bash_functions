@@ -94,7 +94,17 @@ i_want_to_delete(){
 
    echo "Kill these processes to remove your file:"
    lsof -- `find $1`
+}
 
+flashastellaris(){
+  lm4flash "$1"
+}
+
+dimmidovesbaglio(){
+  a="$1"
+  shift 1
+  lol="$@"
+  gdb -ex "catch throw" -ex "set args $lol" -ex "r" "$a"
 }
 
 lua_path(){
