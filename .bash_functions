@@ -3,10 +3,10 @@ vim_open_class_jciuwheviweuhfiwernoqwkciwuenciwesiuveivreiuvheriufh(){
   vim -o $1.cpp $1.h
 }
 
-whosthere_jfnwoefwoefi(){
+whosthere(){
   nmap -sP `ifconfig | grep -e "inet[^6]" | grep -v 127.0.0.1 | sed -e 's/^ *[^ ]* *\([0-9]*\.[0-9]*\.[0-9]*\)\.[0-9]* *.*$/\1\.\*/'`
 }
-git_patch_jwnfwivnwivnweivnewrivnw(){
+git_patch(){
   git stash show -p stash@{$1} | git apply
 }
 

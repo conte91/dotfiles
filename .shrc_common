@@ -1,17 +1,15 @@
-source ~/.shrc_paths
-
 ### Personal ###
 export LS_COLORS=$LS_COLORS:'di=1;35'
 export WINEARCH=win32
 
 export EDITOR=vim
 
+export WINEARCH=win32
+export HISTSIZE=10000
+
 # Don't pull INT_MAX data when cloning
 export GIT_LFS_SKIP_SMUDGE=1
 
 [ -f ~/.shrc.local ] && source ~/.shrc.local
 
-which thefuck > /dev/null 2>&1 && eval $(thefuck --alias)
-which thefuck > /dev/null 2>&1 && eval $(thefuck --alias FUCK)
-
-which nvim > /dev/null 2>&1 && alias vim='nvim' && alias vi='nvim'
+todo

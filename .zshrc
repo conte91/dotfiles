@@ -24,9 +24,9 @@ export WORDCHARS=''
 
 export PS1='[%n@%m %2~] %B%(0?.%F{blue}.%F{red})%(!.#.→)%b%f '
 
-[ -f ~/.bash_aliases ] && source ~/.bash_aliases
+source ~/.shrc_paths
 [ -f ~/.bash_functions ] && source ~/.bash_functions
-
+[ -f ~/.bash_aliases ] && source ~/.bash_aliases
 source ~/.shrc_common
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
