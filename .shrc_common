@@ -12,4 +12,5 @@ export GIT_LFS_SKIP_SMUDGE=1
 
 [ -f ~/.shrc.local ] && source ~/.shrc.local
 
-todo
+# Allow GPG signing to use your terminal for promping passwords etc.
+export GPG_TTY=$(tty)
