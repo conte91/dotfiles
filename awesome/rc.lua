@@ -174,7 +174,7 @@ myawesomemenu = {
   { "manual", terminal .. " -e man awesome" },
   { "edit config", editor_cmd .. " " .. awesome.conffile },
   { "restart", awesome.restart },
-  { "quit", awesome.quit }
+  { "quit", function() awesome.quit() end }
 }
 
 mymainmenu = awful.menu({ items = {
@@ -423,7 +423,7 @@ awful.key({ modkey,           }, "Tab",
 -- Standard program
 awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
 awful.key({ modkey, "Control" }, "r", awesome.restart),
-awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+awful.key({ modkey, "Shift"   }, "q", function() awesome.quit() end),
 
 awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
 awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
