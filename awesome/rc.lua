@@ -73,7 +73,7 @@ local function run_once(process, cmd)
   -- Use the second argument, if the programm you wanna start, 
   -- differs from the what you want to search.
   run_once("urxvtd", "urxvtd -o -q -f")
-  run_once("xautolock -locker slock")
+  run_once("xautolock -locker i3lock")
   run_once("python2 /usr/bin/pamusb-agent")
   run_once("/usr/bin/python2 /usr/share/kupfer/kupfer.py --no-splash", "kupfer --no-splash")
   run_once("conky")
