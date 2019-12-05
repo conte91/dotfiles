@@ -7,6 +7,7 @@ fpath=(~/dotfiles/zsh_completion $fpath)
 autoload -Uz compinit
 compinit
 
+export HISTFILE=~/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=10000
 setopt autocd
