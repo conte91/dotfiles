@@ -21,6 +21,7 @@ local conkymanager = require("conky_manager")
 local screenchanger = require("screen_changer")
 local exec_popup = require("exec_popup")
 local print_table = require("print_table")
+local home_folder = os.getenv("HOME")
 
 --To run application in the right desktop, add this for each one
 skipMovingFF=false;
@@ -64,7 +65,7 @@ local function run_once(process, cmd)
   -- Usage Example
   run_once("udiskie")
   --run_once("firefox")
-  run_once("/home/simo/.cambiasfondo.pl")
+  run_once(home_folder .. "/.cambiasfondo.pl")
   run_once("setxkbmap -layout us -variant altgr-intl -option nodeadkeys")
   run_once("pasystray")
   run_once("glipper")
@@ -107,7 +108,7 @@ local function run_once(process, cmd)
 
   -- {{{ Variable definitions
   -- Themes define colours, icons, and wallpapers
-  beautiful.init("/home/simo/.config/awesome/mytheme/theme.lua")
+  beautiful.init(home_folder .. "/.config/awesome/mytheme/theme.lua")
   editor = os.getenv("EDITOR") or "nano"
   editor_cmd = terminal .. " -e " .. editor
 
