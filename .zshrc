@@ -1,9 +1,11 @@
 # Uncomment the following line to use case-sensitive completion.
-fpath=($fpath /usr/share/zsh/5.0.2/functions/)
+fpath=($fpath /usr/share/zsh/5.0.2/functions/ /usr/share/zsh/site-functions/)
 CASE_SENSITIVE="true"
 #
 # User configuration
 fpath=(~/dotfiles/zsh_completion $fpath)
+autoload -Uz compinit
+compinit
 
 export HISTSIZE=10000
 export SAVEHIST=10000
