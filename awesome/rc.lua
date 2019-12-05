@@ -302,9 +302,9 @@ local tasklist_buttons = awful.util.table.join(
 switching.toggleWidget(
 function(a)
   if a then
-    awful.util.spawn("xbacklight -set 90")
+    awful.util.spawn("light -S 90")
   else
-    awful.util.spawn("xbacklight -set 20")
+    awful.util.spawn("light -S 20")
   end
   return true
 end
@@ -502,8 +502,8 @@ awful.key({}, "F11",
 -- Volume keys
 awful.key({}, "XF86AudioLowerVolume", function () awful.util.spawn("pactl set-sink-volume 0 '-1%'")    end),
 awful.key({}, "XF86AudioRaiseVolume", function () awful.util.spawn("pactl set-sink-volume 0 '+1%'")    end),
-awful.key({}, "XF86MonBrightnessUp", function () awful.util.spawn("xbacklight -inc 1")    end),
-awful.key({}, "XF86MonBrightnessDown", function () awful.util.spawn("xbacklight -dec 1")    end)
+awful.key({}, "XF86MonBrightnessUp", function () awful.util.spawn("light -A 1")    end),
+awful.key({}, "XF86MonBrightnessDown", function () awful.util.spawn("light -U 1")    end)
 )
 
 clientkeys = awful.util.table.join(
