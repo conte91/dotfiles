@@ -28,6 +28,10 @@ skipMovingFF=false;
 
 require("lfs") 
 -- {{{ Run programm once
+--
+-- Function to return the list
+-- of all processes owner by this user.
+-- The list is grabbed from /proc.
 local function processwalker()
   local function yieldprocess()
     for dir in lfs.dir("/proc") do
