@@ -5,23 +5,29 @@
              '("melpa" . "http://melpa.org/packages/"))
 (package-initialize) 
 
+;; evil-mode maps C-z to "disable evil mode" :(
+(setq evil-toggle-key "")
 
 (require 'evil)
 (require 'evil-leader)
 (require 'evil-matchit)
-(require 'evil-matchit-systemverilog)
-(plist-put evilmi-plugins 'verilog-mode '((evilmi-systemverilog-get-tag evilmi-systemverilog-jump)))
+(require 'evil-tabs)
+;(require 'evil-matchit-systemverilog)
+;list-put evilmi-plugins 'verilog-mode '((evilmi-systemverilog-get-tag evilmi-systemverilog-jump)))
 
 (require 'evil-surround)
-(require 'evil-nerd-commenter)
+;(require 'evil-nerd-commenter)
 
-(setq evil-leader/in-all-states 1)
+;(setq evil-leader/in-all-states 1)
+(evil-leader/set-leader "<SPC>")
 (global-evil-leader-mode)
-;; Tag matching
+;;; Tag matching
 (global-evil-matchit-mode 1)
 (global-evil-surround-mode 1)
+
 (evil-mode 1)
-(evil-vimish-fold-mode 1)
+
+;(evil-vimish-fold-mode 1)
 
 ; Either close the current elscreen, or if only one screen, use the ":q" Evil
 ; command; this simulates the ":q" behavior of Vim when used with tabs.
@@ -52,20 +58,34 @@ otherwise, close current tab (elscreen)."
 
 (evil-ex-define-cmd "q[uit]" 'vimlike-quit)
 
-(require 'org-annotate-file)
-(evil-leader/set-key "a" 'org-annotate-file)
+;(require 'org-annotate-file)
+;(evil-leader/set-key "a" 'org-annotate-file)
 
+(setq tags-file-name ".etags")
 
-;; Helm-Projectile
+;(require 'helm-config)
+;(global-set-key (kbd "M-x") #'helm-M-x)
+;(global-set-key (kbd " r b") #'helm-filtered-bookmarks)
+;(global-set-key (kbd " ") #'helm-find-files)
+;(helm-mode)
+; Helm-Projectile
 (require 'projectile)
 (require 'helm-projectile)
 (projectile-global-mode)
+(setq projectile-tags-file-name tags-file-name)
+(setq projectile-tags-backend "ctags")
+(setq projectile-tags-command "git ls-files -oc --exclude-standard | ctags -Re -L - -f \"%s\"")
 
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 
+; add Ctrl-P functionality to normal mode
+(define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
+(evil-leader/set-key "pp" 'helm-projectile-switch-project)
+(evil-leader/set-key "pg" 'helm-projectile-ag)
+
 ;; Buffers/tabs management
-(defvar my-skippable-buffers '("*Messages*" "*scratch*" "*Help*")
+(defvar my-skippable-buffers '"^\\*.*\\*$"
   "Buffer names ignored by `my-next-buffer' and `my-previous-buffer'.")
 
 (defun my-change-buffer (change-buffer)
@@ -74,7 +94,7 @@ otherwise, close current tab (elscreen)."
     (funcall change-buffer)
     (let ((first-change (current-buffer)))
       (catch 'loop
-        (while (member (buffer-name) my-skippable-buffers)
+        (while (string-match my-skippable-buffers (buffer-name))
           (funcall change-buffer)
           (when (eq (current-buffer) first-change)
             (switch-to-buffer initial)
@@ -96,11 +116,20 @@ otherwise, close current tab (elscreen)."
 
 
 (global-evil-tabs-mode t)
-(global-set-key (kbd "C-n") 'elscreen-create)
-(global-set-key (kbd "C-h") 'elscreen-previous)
-(global-set-key (kbd "C-l") 'elscreen-next)
-(global-set-key (kbd "C-j") 'my-previous-buffer)
-(global-set-key (kbd "C-k") 'my-next-buffer)
+(define-key evil-normal-state-map (kbd "C-n") 'elscreen-create)
+(define-key evil-normal-state-map (kbd "C-h") 'elscreen-previous)
+(define-key evil-normal-state-map (kbd "C-l") 'elscreen-next)
+(define-key evil-normal-state-map (kbd "C-j") 'my-previous-buffer)
+(define-key evil-normal-state-map (kbd "C-k") 'my-next-buffer)
+
+;; Newline should extend comments if you're in a comment.
+(defun insert-newline () (interactive) (if (nth 4 (syntax-ppss)) (funcall (key-binding (kbd "M-j"))) (newline 1 t)))
+(define-key evil-insert-state-map (kbd "RET") 'insert-newline)
+
+(evil-leader/set-key "j" 'next-error)
+(evil-leader/set-key "k" 'previous-error)
+(defun save-and-make () "Saves the current buffer and runs make" (interactive) (save-buffer) (evil-make nil))
+(evil-leader/set-key "m" 'save-and-make)
 
 ;;;;;;;;;;;;;;;; Indentation stuff ;;;;;;;;;;;;;;;;;;
 
@@ -110,12 +139,27 @@ otherwise, close current tab (elscreen)."
                              (if (and buffer-file-name
                                       (not (string-equal mode-name "Makefile")))
                                (setq indent-tabs-mode nil))))
-(setq-default tab-width 3)
-(setq-default c-basic-offset 3)
-(setq-default cperl-indent-level 3)
-(setq-default evil-shift-width 3)
-(add-hook 'python-mode-hook
-          (function (lambda () (setq evil-shift-width python-indent))))
+(setq-default tab-width 4)
+(setq-default c-basic-offset 4)
+(setq-default c-block-comment-prefix "* ")
+(setq-default c-default-style "linux")
+
+(setq-default cperl-indent-level 4)
+;(setq-default evil-shift-width 4)
+
+;Make trailing whitespace visible
+(setq whitespace-style '(tab-mark space-before-tab trailing))
+(global-whitespace-mode)
+
+; Enable folding
+
+;Make tabs visible
+(standard-display-ascii ?\t "»\t")
+
+;(add-hook 'python-mode-hook
+          ;(function (lambda () (setq evil-shift-width python-indent))))
+(add-hook 'dired-mode-hook 'evil-mode)
+(add-hook 'compilation-mode-hook 'evil-mode)
 
 ;; esc quits
 (defun minibuffer-keyboard-quit ()
@@ -137,8 +181,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (global-set-key [escape] 'evil-exit-emacs-state)
 
 ;; Perforce (sigh) integration
-(require 'p4)
-(p4-set-client-name (getenv "P4CLIENT"))
+;;(require 'p4)
+;(p4-set-client-name (getenv "P4CLIENT"))
 ;;(defun p4-update-global-key-prefix (symbol value)
 ;;    "Update the P4 global key prefix based on the
 ;;`p4-global-key-prefix' user setting."
@@ -157,6 +201,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Parenthesis highlight
 (show-paren-mode 1)
 
+;; Don't ask when editing a symlink that points to a version controlled file.
+;; Always follow symlinks.
+(setq vc-follow-symlinks t)
+
 ;; Random/obvious stuff
 ;;No newline for verilog
 (setq-default verilog-auto-newline nil)
@@ -167,6 +215,44 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Select "word" text-objects as any symbol, depending on the language (e.g. foo-bar as a whole in LISP mode, but not C)
 (with-eval-after-load 'evil
       (defalias #'forward-evil-word #'forward-evil-symbol))
+
+;; Case-sensitive search
+(setq case-fold-search nil)
+;; Also, case-sensitive autocompletion.
+(setq dabbrev-case-fold-search nil)
+
+; Save the startup CWD
+;;(setq startup-cwd default-directory)
+;;; Reset it every time we open a file.
+;;(add-hook 'find-file-hook #'(lambda () (setq default-directory startup-cwd)))
+;;(advice-add 'cd :after (lambda(r) (setq startup-cwd default-directory)))
+
+(defalias 'yes-or-no-p 'y-or-n-p) ;; short yes-or-now answers
+
+; We're not in 1980 anymore, so opening a >10MB file should work
+; without annoying prompts.
+(setq large-file-warning-threshold 100000000)
+
+; When opening one of the specified modes (C-like languages,
+; python, add more as needed), treat underscore as part of words.
+(dolist
+  (mode-with-underscores (list 'python-mode-hook 'c-mode-common-hook))
+  (add-hook mode-with-underscores #'(lambda () (modify-syntax-entry ?_ "w")))
+)
+
+; Don't scroll half window at the time
+(setq scroll-step 1)
+(setq scroll-margin 1)
+
+(add-hook 'c-mode-common-hook
+          #'(lambda ()
+              (add-to-list 'c-cleanup-list 'brace-else-brace)
+              (add-to-list 'c-cleanup-list 'brace-elseif-brace)
+              (add-to-list 'c-cleanup-list 'defun-close-semi)
+          )
+)
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
