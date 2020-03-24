@@ -135,10 +135,9 @@ otherwise, close current tab (elscreen)."
 
 ;; Indentation with spaces everywhere (not TABs).
 ;; Exceptions: Makefile
-(add-hook 'find-file-hook '(lambda ()
-                             (if (and buffer-file-name
-                                      (not (string-equal mode-name "Makefile")))
-                               (setq indent-tabs-mode nil))))
+(add-hook 'python-mode '(lambda ()
+                            (setq indent-tabs-mode t)))
+(setq-default indent-tabs-mode t)
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
 (setq-default c-block-comment-prefix "* ")
