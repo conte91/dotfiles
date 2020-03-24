@@ -258,7 +258,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(package-selected-packages
+   (quote
+    (origami ggtags telega cmake-mode ag helm-ag magit ## elscreen-tab flycheck dash cmake-ide rtags helm-projectile evil-tabs evil-surround evil-matchit evil-leader)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
