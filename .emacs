@@ -85,7 +85,7 @@ otherwise, close current tab (elscreen)."
 (evil-leader/set-key "pg" 'helm-projectile-ag)
 
 ;; Buffers/tabs management
-(defvar my-skippable-buffers '"^\\*.*\\*$"
+(defvar my-skippable-buffers '"(^\\*.*\\*$|^Dired\\(.*)"
   "Buffer names ignored by `my-next-buffer' and `my-previous-buffer'.")
 
 (defun my-change-buffer (change-buffer)
