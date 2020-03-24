@@ -8,6 +8,12 @@ export LD_LIBRARY_PATH=${HOME}/local/lib:${HOME}/local/lib64:${LD_LIBRARY_PATH}
 export PYTHONPATH="${HOME}/local/lib/python2.7/site-packages:${PYTHONPATH}"
 export CPATH="${HOME}/local/include:${CPATH}"
 
+if which gem >/dev/null 2>/dev/null
+then
+	RUBY_LOCAL_PATH=$(gem environment|sed -n 's/.*USER INSTALLATION DIRECTORY: *\(.*\)/\1/p')
+    export PATH="${PATH}:${RUBY_LOCAL_PATH}/bin"
+fi
+
 if which luarocks >/dev/null 2>/dev/null
 then
 	eval "`luarocks path`"

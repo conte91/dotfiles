@@ -257,7 +257,32 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(package-selected-packages
+   (quote
+    (origami ggtags telega cmake-mode ag helm-ag magit ## elscreen-tab flycheck dash cmake-ide rtags helm-projectile evil-tabs evil-surround evil-matchit evil-leader)))
+ '(safe-local-variable-values
+   (quote
+    ((demo . Whatever)
+     (eval setq-local flycheck-clang-include-path
+           (list "/home/simone/shift/bitbox02-firmware/src" "/home/simone/shift/bitbox02-firmware/external/asf4-drivers/"))
+     (eval setq-local flycheck-clang-definitions
+           (list "APP_BTC=1" "APP_LTC=1" "PRODUCT_BITBOX_MULTI=1"))
+     (flycheck-clang-include-path
+      ("/home/simone/shift/bitbox02-firmware/src" "/home/simone/shift/bitbox02-firmware/external/asf4-drivers/"))
+     (flycheck-clang-definitions
+      ("APP_BTC=1" "APP_LTC=1" "PRODUCT_BITBOX_MULTI=1"))
+     (flycheck-clang-include-path
+      (list
+       (concatenate
+        (file-name-directory
+         (buffer-file-name))
+        "/src")
+       (concatenate
+        (file-name-directory
+         (buffer-file-name))
+        "/external/asf4-drivers/")))
+     (flycheck-clang-definitions
+      (list "APP_BTC=1" "APP_LTC=1" "PRODUCT_BITBOX_MULTI=1"))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
