@@ -129,4 +129,12 @@ hello() {
    cowsay 'Hello!'
 }
 
+converti_per_madre() {
+   if [ $# != 2 ]
+   then
+       echo You are an idiot
+       return 1
+   fi
+   ffmpeg -i "$1" -vcodec h264 -acodec aac "$2"
+}
 # vim: set filetype=sh :
