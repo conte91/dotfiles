@@ -75,6 +75,7 @@ local function run_once(process, cmd)
   run_once("glipper")
   run_once("nm-applet")
   run_once("liferea")
+  run_once("redshift", "redshift -m randr")
   -- Use the second argument, if the programm you wanna start, 
   -- differs from the what you want to search.
   run_once("urxvtd", "urxvtd -o -q -f")
