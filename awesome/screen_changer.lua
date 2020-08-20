@@ -106,7 +106,7 @@ function xrandr()
     label, icon = "Keep the current configuration", "/usr/share/icons/Tango/32x32/devices/display.png"
     state.iterator = nil
   else
-    label, action, icon = unpack(next)
+    label, action, icon = table.unpack(next)
   end
   state.cid = naughty.notify({ text = label,
   icon = icon,

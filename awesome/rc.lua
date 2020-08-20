@@ -26,7 +26,7 @@ local home_folder = os.getenv("HOME")
 --To run application in the right desktop, add this for each one
 skipMovingFF=false;
 
-require("lfs") 
+require("lfs")
 -- {{{ Run programm once
 --
 -- Function to return the list
