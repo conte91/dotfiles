@@ -1,5 +1,7 @@
+print_table = {}
+
 --~ print a table
-function printtable(toPrint, indent)
+function print_table.printtable(toPrint, indent)
 
   indent = indent or 0;
 
@@ -49,3 +51,5 @@ function printtable(toPrint, indent)
   result = result .. string.rep('  ', indent) .. '}';
   return result;
 end
+
+return print_table
