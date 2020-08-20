@@ -1,20 +1,26 @@
 local awful=require("awful")
 local naughty=require("naughty")
--- Get active outputs
+
+-- Get active and nonactive outputs
 local function outputs()
   local outputs = {}
+  local disconnected_outputs = {}
   local xrandr = io.popen("xrandr -q")
   if xrandr then
     for line in xrandr:lines() do
-      output = line:match("^([%w-]+) connected ")
-      if output then
-        outputs[#outputs + 1] = output
+      local out_name = line:match("^([%w-]+) connected ")
+      if out_name then
+        outputs[#outputs + 1] = out_name
+      end
+      local disc_name = line:match("^([%w-]+) disconnected ")
+      if disc_name then
+        disconnected_outputs[#disconnected_outputs + 1] = disc_name
       end
     end
     xrandr:close()
   end
 
-  return outputs
+  return outputs, disconnected_outputs
 end
 
 local function arrange(out)
@@ -45,8 +51,8 @@ end
 -- Build available choices
 local function menu()
   local menu = {}
-  local out = outputs()
-  local choices = arrange(out)
+  local outputs, disconnected_outputs = outputs()
+  local choices = arrange(outputs)
 
   for _, choice in pairs(choices) do
     local cmd = "xrandr"
@@ -57,11 +63,14 @@ local function menu()
         cmd = cmd .. " --right-of " .. choice[i-1]
       end
     end
-    -- Disabled outputs
-    for _, o in pairs(out) do
+    -- Disabled outputs, force them off every time.
+    for _, o in pairs(outputs) do
       if not awful.util.table.hasitem(choice, o) then
         cmd = cmd .. " --output " .. o .. " --off"
       end
+    end
+    for _, o in pairs(disconnected_outputs) do
+        cmd = cmd .. " --output " .. o .. " --off"
     end
 
     local label = ""
