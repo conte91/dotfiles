@@ -135,6 +135,6 @@ converti_per_madre() {
        echo You are an idiot
        return 1
    fi
-   ffmpeg -i "$1" -vcodec h264 -acodec aac "$2"
+   ffmpeg -i "$1" -vcodec h264 -acodec mp3 "$2"
 }
 # vim: set filetype=sh :
