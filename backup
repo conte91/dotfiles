@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import subprocess
+import sys
+
+
+def parse_args():
+    default_archive_name = '{hostname}_home_{now:%Y_%m_%d_%H_%M_%S}'
+    default_exclude_file = os.path.join(os.getenv("HOME"), "dotfiles", "borgbackup_exclude_list")
+    parser = argparse.ArgumentParser(description='Runs Borgbackup on your home directory with proper flags.')
+    parser.add_argument('borg_repo', help='Repository to write to')
+    parser.add_argument('--archive_name', metavar='archive_name', default=default_archive_name, help=f'Archive name/formatter (default: {default_archive_name})')
+    parser.add_argument('--exclude_file', metavar='exclude_file', default=default_exclude_file, type=str, nargs='?',
+            help=f'File containing exclusion patterns (default: {default_exclude_file})')
+    return parser.parse_args()
+
+
+def run_backup(borg_repo, archive_name, exclude_file):
+    args = ['borg', 'create', '--verbose']
+    home_dir = os.getenv("HOME")
+    args += [f'--exclude-from={exclude_file}', f'{borg_repo}::{archive_name}', home_dir]
+    print(f'Running: {args}')
+    result = subprocess.run(args, cwd=home_dir, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
+    sys.exit(result.returncode)
+
+
+if __name__=='__main__':
+    args = parse_args()
+    run_backup(args.borg_repo, args.archive_name, args.exclude_file)
