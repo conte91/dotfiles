@@ -17,3 +17,4 @@ export GIT_LFS_SKIP_SMUDGE=1
 
 # Allow GPG signing to use your terminal for promping passwords etc.
 export GPG_TTY=$(tty)
+todo
