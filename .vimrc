@@ -6,6 +6,8 @@ set rtp+=~/utils/vim
 set rtp+=~/dotfiles/vim
 set rtp+=~/.vim/bundle/Vundle.vim
 
+call vundle#rc()
+
 let mapleader = " "
 
 try
@@ -17,6 +19,7 @@ try
     Plugin 'matchit.zip'
     Plugin 'vim-airline/vim-airline'
     Plugin 'neomake/neomake'
+    Plugin 'surround.vim'
     Plugin 'AutoTag'
     call vundle#end()
 catch /^Vim\%((\a\+)\)\=:E117/ "catch error E117 (function unknown)
