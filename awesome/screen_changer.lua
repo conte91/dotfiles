@@ -95,7 +95,7 @@ end
 local state = { iterator = nil,
 timer = nil,
 cid = nil }
-function xrandr()
+function xrandr(callback)
   -- Stop any previous timer
   if state.timer then
     state.timer:stop()
@@ -133,6 +133,7 @@ function xrandr()
     state.iterator = nil
     if action then
       awful.util.spawn(action, false)
+      callback()
     end
   end)
   state.timer:start()

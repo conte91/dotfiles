@@ -151,14 +151,6 @@ local function run_once(process, cmd)
   end
   -- }}}
 
-  -- {{{ Tags
-  -- Define a tag table which hold all screen tags.
-  for s = 1, screen.count() do
-    -- Each screen has its own tag table.
-    awful.tag({ '零' , '一', '二', '三', '四', '五', '六', '七', '八', '九', '@'}, s, layouts[1])
-  end
-  -- }}}
-
 
 -- {{{ Helper functions
 local function client_menu_toggle_fn()
@@ -343,17 +335,17 @@ end
 , "WiFi", false, awful.util.getdir("config") .. "/wifi.svg"
 )
 
-awful.screen.connect_for_each_screen(function(s)
+local function init_screen(s)
   -- Create a promptbox for each screen
   s.mypromptbox = awful.widget.prompt()
   -- Create an imagebox widget which will contains an icon indicating which layout we're using.
   -- We need one layoutbox per screen.
   s.mylayoutbox = awful.widget.layoutbox(s)
   s.mylayoutbox:buttons(awful.util.table.join(
-                          awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
-                          awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
-                          awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-                          awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
+  awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
+  awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
+  awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
+  awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
   -- Create a taglist widget
   s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
 
@@ -364,26 +356,47 @@ awful.screen.connect_for_each_screen(function(s)
   s.right_layout = wibox.layout.fixed.horizontal()
   switching.addToggles(s.right_layout)
   s.right_layout:add(battwidget)
-  if s.index == 1 then s.right_layout:add(wibox.widget.systray()) end
+  s.right_layout:add(wibox.widget.systray())
   s.right_layout:add(mytextclock)
   s.right_layout:add(s.mylayoutbox)
 
   -- Create the wibox
   s.mywibox = awful.wibox({ position = "top", screen = s })
-
   s.mywibox:setup {
-              layout = wibox.layout.align.horizontal,
-              { -- Left widgets
-                  layout = wibox.layout.fixed.horizontal,
-                  mylauncher,
-                  s.mytaglist,
-                  s.mypromptbox,
-              },
-              s.mytasklist, -- Middle widget
-              -- Right widgets
-              s.right_layout
-          }
-end)
+    layout = wibox.layout.align.horizontal,
+    { -- Left widgets
+      layout = wibox.layout.fixed.horizontal,
+      mylauncher,
+      s.mytaglist,
+      s.mypromptbox,
+    },
+    s.mytasklist, -- Middle widget
+    -- Right widgets
+    s.right_layout
+  }
+
+  -- {{{ Tags
+  -- Define a tag table which hold all screen tags.
+  -- Each screen has its own tag table.
+  awful.tag({ '零' , '一', '二', '三', '四', '五', '六', '七', '八', '九', '@'}, s, layouts[1])
+  -- }}}
+end
+
+-- Save the list of screens that have been initialized (ouch).
+-- Avoid double initialization on reload.
+local currently_initialized_screens = {}
+
+local function reload_desktop_layout()
+  new_screens = {}
+  awful.screen.connect_for_each_screen(function(s)
+    if not currently_initialized_screens[s] then
+      init_screen(s)
+    end
+    new_screens[s] = true
+  end)
+  currently_initialized_screens = new_screens
+end
+reload_desktop_layout()
 
 -- }}}
 
@@ -495,7 +508,7 @@ awful.key({ modkey, "Shift" }, "m", function() menubar.show() end),
 -- Lock screen
 awful.key({ modkey, "Shift" }, "l", function () awful.util.spawn("xautolock -locknow")    end),
 -- Change screen
-awful.key({ modkey,  }, "p", xrandr),
+awful.key({ modkey,  }, "p", function () xrandr(reload_desktop_layout) end),
 awful.key({}, "F10", unminimize_conky, minimize_conky),
 awful.key({}, "F11",
     function()
