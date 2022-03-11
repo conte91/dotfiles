@@ -47,12 +47,10 @@ let g:neomake_make_maker = { 'exe': 'sh', 'args': '-c "make -j1 2>&1"'}
 nnoremap <Leader><CR> <ESC>:w<CR>:Neomake! make<CR>
 map <S-Right> :tn<CR>
 map <S-Left> :tp<CR>
-imap <C-n> <ESC>:tabnew<CR>
 imap <C-j> <ESC><C-j>
 imap <C-k> <ESC><C-k>
 imap <C-h> <ESC><C-h>
 imap <C-l> <ESC><C-l>
-inoremap <C-S-n> <C-n>
 inoremap <S-Tab> <ESC>==i
 
 "Quickfix window: scroll with <L>j, <L>k
