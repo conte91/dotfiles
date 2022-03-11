@@ -522,7 +522,11 @@ awful.key({}, "F11",
 awful.key({}, "XF86AudioLowerVolume", function () awful.util.spawn("pactl set-sink-volume 0 '-1%'")    end),
 awful.key({}, "XF86AudioRaiseVolume", function () awful.util.spawn("pactl set-sink-volume 0 '+1%'")    end),
 awful.key({}, "XF86MonBrightnessUp", function () awful.util.spawn("light -A 1")    end),
-awful.key({}, "XF86MonBrightnessDown", function () awful.util.spawn("light -U 1")    end)
+awful.key({}, "XF86MonBrightnessDown", function () awful.util.spawn("light -U 1")    end),
+-- Media keys
+awful.key({}, "XF86AudioPlay", function () awful.util.spawn("playerctl play-pause") end),
+awful.key({}, "XF86AudioNext", function () awful.util.spawn("playerctl next") end),
+awful.key({}, "XF86AudioPrev", function () awful.util.spawn("playerctl previous") end)
 )
 
 clientkeys = awful.util.table.join(
