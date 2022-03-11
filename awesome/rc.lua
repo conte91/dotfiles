@@ -316,7 +316,7 @@ function(a)
     awful.util.spawn("xautolock -enable")
   else
     awful.util.spawn("xset s off -dpms")
-    awful.util.spawn("xautolock -disable")
+    awful.util.spawn("killall xautolock")
   end
   return true
 end
