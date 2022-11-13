@@ -20,8 +20,8 @@ def parse_args():
 def run_backup(borg_repo, archive_name, exclude_file):
     args = ['borg', 'create', '--verbose']
     home_dir = os.getenv("HOME")
-    args += [f'--exclude-from={exclude_file}', f'{borg_repo}::{archive_name}', home_dir]
-    print(f'Running: {args}')
+    args += [f'--exclude-from={exclude_file}', f'{borg_repo}::{archive_name}', '.']
+    print(f'Running: {args} from {home_dir}')
     result = subprocess.run(args, cwd=home_dir, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
     sys.exit(result.returncode)
 
