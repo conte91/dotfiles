@@ -43,3 +43,5 @@ Pictures/.dtrash/
 .android/build-cache/
 .gradle/wrapper/dists/
 ./My_Projects/Ardour/Drumkits/
+./mnt/
+./LOTR/
