@@ -16,6 +16,8 @@
 ;list-put evilmi-plugins 'verilog-mode '((evilmi-systemverilog-get-tag evilmi-systemverilog-jump)))
 
 (require 'evil-surround)
+
+(require 'xclip)
 ;(require 'evil-nerd-commenter)
 
 ;(setq evil-leader/in-all-states 1)
@@ -220,6 +222,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Also, case-sensitive autocompletion.
 (setq dabbrev-case-fold-search nil)
 
+;; Allow "+y and "*y to work
+(xclip-mode 1)
+
 ; Save the startup CWD
 ;;(setq startup-cwd default-directory)
 ;;; Reset it every time we open a file.
@@ -259,7 +264,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (origami ggtags telega cmake-mode ag helm-ag magit ## elscreen-tab flycheck dash cmake-ide rtags helm-projectile evil-tabs evil-surround evil-matchit evil-leader)))
+	(xclip yaml-mode origami ggtags telega cmake-mode ag helm-ag magit ## elscreen-tab flycheck dash cmake-ide rtags helm-projectile evil-tabs evil-surround evil-matchit evil-leader)))
  '(safe-local-variable-values
    (quote
     ((demo . Whatever)
