@@ -208,14 +208,6 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 --aware.register(rssbox, rssbox_urlOfFeeds, {} ) 
 
 --END RSS READER
-battwidget = awful.widget.progressbar()
-battwidget:set_max_value(1)
-battwidget:set_width(30)
-battwidget:set_height(5)
-battwidget:set_color("#00ff00")
-battwidget:set_background_color("#cc0000")
-vicious.register(battwidget, vicious.widgets.bat, "$2", 10, "BAT0")
-
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
@@ -356,7 +348,6 @@ local function init_screen(s)
   -- Widgets that are aligned to the right
   s.right_layout = wibox.layout.fixed.horizontal()
   switching.addToggles(s.right_layout)
-  s.right_layout:add(battwidget)
   s.right_layout:add(wibox.widget.systray())
   s.right_layout:add(mytextclock)
   s.right_layout:add(s.mylayoutbox)
