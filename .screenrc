@@ -1,3 +1,4 @@
 caption always "%{= kw}%-w%{= BW}%n %t%{-}%+w %-= @%H - %d/%m - %c"
 vbell "off"
 maptimeout 5
+defscrollback 10000
