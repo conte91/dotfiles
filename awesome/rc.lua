@@ -313,6 +313,7 @@ switching.toggleWidget(
 function(a)
   if a then
     awful.util.spawn("xset s on +dpms")
+    awful.util.spawn("xautolock -locker i3lock")
     awful.util.spawn("xautolock -enable")
   else
     awful.util.spawn("xset s off -dpms")
