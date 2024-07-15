@@ -2,12 +2,14 @@
 ./.aMule/Incoming/
 ./.aMule/Temp/
 ./.cache/
-./.cargo/registry/cache/
-./.cargo/.package-cache
+./.cargo
 ./*/cache/
 ./*/Cache/
 ./*/.cache/
-./.local/miniconda3/pkgs/
+./.conda/
+./.local/lib/python3*/site-packages/
+./.local/lib/python2*/site-packages/
+./.local/miniconda3/
 ./mozilla-media-cache/
 ./.torch/iopath_cache/
 ./.emacs.d/elpa/
@@ -23,7 +25,16 @@
 ./My_Projects/My_PkGBUILD/*/pkg/
 ./My_Projects/Unity/SDK/
 ./My_Projects/pico-python/data/
-./My_Projects/pico-python/data/
+./My_Projects/*/build/
+./My_Projects/Karaoker/firmware/
+./My_Projects/Unity/*/Library/
+./My_Projects/Unity/*/*.sdk
+./My_Projects/Unity/SDK/
+./.arduino*/packages/
+./.arduino*/cache/
+./.arduino*/staging/libraries/
+./.arduino*/staging/packages/
+./.npm/_cacache/
 ./android-sdk/
 ./*.pkg.tar.*
 ./*.pkg.tar
@@ -45,3 +56,20 @@ Pictures/.dtrash/
 ./My_Projects/Ardour/Drumkits/
 ./mnt/
 ./LOTR/
+./.hunter/
+# This is already synced to gabonzo and backed up there
+./Pictures/
+./provola/
+# Rust builds
+./*/target/debug/
+./*/target/release/
+# Buildozer builds
+./*/.buildozer/
+./.rustup/
+./.wine*/drive_c/windows/
+./.nv/ComputeCache/
+./.local/share/Trash/
+./.local/share/unity3d/
+./.local/share/virtualenv/
+# AppImage builds
+./*/AppDir/
