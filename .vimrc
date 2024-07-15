@@ -19,21 +19,28 @@ try
     Plugin 'matchit.zip'
     Plugin 'vim-airline/vim-airline'
     Plugin 'neomake/neomake'
+    Plugin 'neovim/nvim-lspconfig'
     Plugin 'surround.vim'
     Plugin 'AutoTag'
+    Plugin 'rust-lang/rust.vim'
     call vundle#end()
 catch /^Vim\%((\a\+)\)\=:E117/ "catch error E117 (function unknown)
     " Just pass if Vundle is not installed
 endtry
+
+lua << EOF
+require'lspconfig'.rust_analyzer.setup{}
+require'lspconfig'.clangd.setup{}
+EOF
 
 " Now we can turn our filetype functionality back on
 filetype plugin indent on
 
 syntax on
 set si
+"set et
 set ts=4
 set sw=4
-
 
 " Move between tabs and buffers with C-<direction>
 map <C-n> :tabnew<CR>
@@ -44,7 +51,7 @@ noremap <C-l> :tabnext<CR>
 
 " Neomake syntax parsing
 let g:neomake_make_maker = { 'exe': 'sh', 'args': '-c "make -j1 2>&1"'}
-nnoremap <Leader><CR> <ESC>:w<CR>:Neomake! make<CR>
+nnoremap <Leader><CR> <ESC>:w<CR>:Neomake!<CR>
 map <S-Right> :tn<CR>
 map <S-Left> :tp<CR>
 imap <C-j> <ESC><C-j>
@@ -69,6 +76,7 @@ set noacd
 
 command RiseVol !pactl set-sink-volume 0 +1\%
 command LowerVol !pactl set-sink-volume 0 -1\%
+command References lua vim.lsp.buf.references()
 imap <ScrollWheelUp> <ESC>:RiseVol<CR><CR>i
 map <ScrollWheelUp> :RiseVol<CR><CR>
 
@@ -82,10 +90,12 @@ command CDC cd %:p:h
 command -nargs=1 Grr vimgrep /<args>/ ** | cw
 
 " Perforce
-nnoremap <Leader>pe :PEdit<CR>
-nnoremap <Leader>pl :PLogin<CR>
 command PEdit !p4 edit %
 command PLogin !p4 login
+
+" Perforce
+nnoremap <Leader>pe :PEdit<CR>
+nnoremap <Leader>pl :PLogin<CR>
 
 " Grep
 nnoremap <Leader>gh :call GrrCWHere()<CR>
@@ -101,7 +111,6 @@ nnoremap <silent> <Leader>/ <C-l>
 
 "Search for visual selection with *
 vnoremap * "vy/<C-R>v<CR>
-command Home cd $MIPS_HOME
 set tags=./.tags;,.tags;
 "let g:easytags_always_enabled = 1
 "let g:easytags_dynamic_files = 1
@@ -116,6 +125,7 @@ autocmd BufRead,BufNewFile *.sv,*.svh set filetype=systemverilog
 let g:projectManagerFileName = ".vimproject"
 
 set modeline
+"Line numbers
 set number
 
 let g:ctrlp_map = '<C-p>'
@@ -153,4 +163,7 @@ set isfname-==
 "License files
 command Beerware r !cat ~/.licenses/beerware
 command MIT call LicenseMIT()
+
+
+let g:cargo_makeprg_params = 'build'
 
