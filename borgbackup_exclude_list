@@ -58,8 +58,6 @@ Pictures/.dtrash/
 ./mnt/
 ./LOTR/
 ./.hunter/
-# This is already synced to gabonzo and backed up there
-./Pictures/
 ./provola/
 # Rust builds
 ./*/target/debug/
