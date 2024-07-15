@@ -87,7 +87,9 @@ ${goto 99}Users logon: $user_number
 ${voffset 5}${alignc 72}${font Digital Readout Thick Upright:size=36}${time %H:%M:%S}${font}
 ${voffset 5}${alignc}${time %A %d %B %Y}
 
-${font weather:pixelsize=32}${alignc}${acpitemp} °C
+-- hwmon1/temp1 corresponds to "Package id 0"
+-- See the output of `grep '' /sys/class/hwmon/hwmon*/temp*_label`
+${font weather:pixelsize=32}${alignc}${hwmon 1 temp 1} °C
 ${goto 33}${font :style=Bold:pixelsize=14}Cpu0 @${freq_g 1}GHz${goto 150}${voffset -10}${cpugraph  cpu0 20,90 FFF6CD FF0B00 -t}${voffset 9}${goto 250}${font :style=Bold:pixelsize=14}${cpu cpu1}%${font}
 ${goto 33}${font :style=Bold:pixelsize=14}Cpu1 @${freq_g 1}GHz${goto 150}${voffset -10}${cpugraph  cpu1 20,90 FFF6CD FF0B00 -t}${voffset 9}${goto 250}${font :style=Bold:pixelsize=14}${cpu cpu1}%${font}
 ${goto 33}${font :style=Bold:pixelsize=14}Cpu2 @${freq_g 2}GHz${goto 150}${voffset -10}${cpugraph  cpu2 20,90 FFF6CD FF0B00 -t}${voffset 9}${goto 250}${font :style=Bold:pixelsize=14}${cpu cpu2}%${font}
