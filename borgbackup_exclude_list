@@ -6,6 +6,7 @@
 ./*/cache/
 ./*/Cache/
 ./*/.cache/
+./*/*.cache
 ./.conda/
 ./.local/lib/python3*/site-packages/
 ./.local/lib/python2*/site-packages/
@@ -81,3 +82,5 @@ Pictures/.dtrash/
 ./.local/share/containers/
 ./.ollama/
 ./My_Projects/ss/silver_stream/*env/
+./GDrive*/
+./Android/
