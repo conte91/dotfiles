@@ -169,3 +169,5 @@ command MIT call LicenseMIT()
 
 let g:cargo_makeprg_params = 'build'
 
+" https://github.com/neovim/neovim/issues/28959
+delcommand EditQuery
