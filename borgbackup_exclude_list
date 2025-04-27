@@ -73,3 +73,11 @@ Pictures/.dtrash/
 ./.local/share/virtualenv/
 # AppImage builds
 ./*/AppDir/
+./*/.terraform/
+./*/.terraform.lock.hcl
+# Go modules
+./go/
+# Podman builds
+./.local/share/containers/
+./.ollama/
+./My_Projects/ss/silver_stream/*env/
