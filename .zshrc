@@ -22,6 +22,9 @@ set_term_key khome beginning-of-line
 set_term_key kend  end-of-line
 set_term_key kdch1 delete-char
 
+# Don't push duplicates in the histfile.
+setopt hist_ignore_all_dups
+
 # Word to be considered with vim boundaries
 export WORDCHARS=''
 
