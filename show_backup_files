@@ -1,0 +1,250 @@
+#!/usr/bin/env python3
+import os
+import sys
+import subprocess
+import argparse
+import logging
+import tempfile
+from dataclasses import dataclass, field
+import matplotlib.pyplot as plt
+from matplotlib.widgets import Button
+from tqdm import tqdm
+import numpy as np
+
+
+def translate_borg_exclude_file(borg_exclude_path: str, rsync_exclude_path: str) -> None:
+    """
+    Translate a Borg --exclude-from file (fnmatch patterns) into an rsync --exclude-from file.
+    - Strips leading "./" and converts to rsync root-anchored patterns (/path).
+    - Converts Borg '*' (which can match '/') into rsync '**'.
+    - Raises ValueError for unsupported constructs: '!', '?', char classes.
+    """
+    translated: list[str] = []
+    with open(borg_exclude_path, 'r') as src:
+        for lineno, raw in enumerate(src, 1):
+            line = raw.rstrip('\n')
+            stripped = line.strip()
+            if not stripped or stripped.startswith('#'):
+                continue
+            if stripped.startswith('!'):
+                raise ValueError(f"Line {lineno}: negation '!' unsupported: {line}")
+            if '?' in stripped or '[' in stripped or ']' in stripped:
+                raise ValueError(f"Line {lineno}: unsupported wildcard: {line}")
+            # normalize leading './'
+            if stripped.startswith('./'):
+                pattern = '/' + stripped[2:]
+            else:
+                pattern = stripped
+            # convert '*' to '**'
+            pattern = pattern.replace('*', '**')
+            translated.append(pattern)
+    with open(rsync_exclude_path, 'w') as dst:
+        for p in translated:
+            dst.write(p + '\n')
+    logging.info(f"Translated {len(translated)} patterns to rsync exclude file: {rsync_exclude_path}")
+
+
+@dataclass
+class Node:
+    children: dict[str, 'Node'] = field(default_factory=dict)
+    size: int = 0
+
+
+class DiskUsagePlotter:
+    def __init__(self, mode_paths: dict[str, list[str]]):
+        self.mode_paths = mode_paths
+        self.modes = list(mode_paths.keys())
+        self.current_mode = self.modes[0]
+
+        self.roots: dict[str, Node] = {}
+        for mode, paths in mode_paths.items():
+            root = Node()
+            for p in paths:
+                parts = p.strip('/').split('/')
+                node = root
+                for part in parts:
+                    node = node.children.setdefault(part, Node())
+            self.roots[mode] = root
+
+        self.state = {'node': self.roots[self.current_mode], 'title': '/', 'history': []}
+        self.fig, self.ax = plt.subplots()
+        self.ax.axis('equal')
+        self.wedges = []
+        self.lines = []
+        self.label_data = []
+
+        if len(self.modes) > 1:
+            btn_ax = self.fig.add_axes(tuple([0.8, 0.01, 0.18, 0.05]))
+            self.button = Button(btn_ax, f'Mode: {self.current_mode}')
+            self.button.on_clicked(self.toggle_mode)
+
+    def toggle_mode(self, event):
+        _ = event
+        idx = self.modes.index(self.current_mode)
+        self.current_mode = self.modes[(idx + 1) % len(self.modes)]
+        self.state = {'node': self.roots[self.current_mode], 'title': '/', 'history': []}
+        self.button.label.set_text(f'Mode: {self.current_mode}')
+        self.draw()
+
+    @staticmethod
+    def calculate_sizes(node: Node, path: str = '', progress=None) -> int:
+        total = 0
+        for name, child in node.children.items():
+            full = os.path.join(path, name)
+            if child.children:
+                child.size = DiskUsagePlotter.calculate_sizes(child, full, progress)
+            else:
+                try:
+                    child.size = os.path.getsize(full)
+                except OSError:
+                    child.size = 0
+            total += child.size
+            if progress:
+                progress.update(1)
+        node.size = total
+        return total
+
+    @staticmethod
+    def human_readable(size: int) -> str:
+        human_size = float(size)
+        for unit in ['B', 'KiB', 'MiB', 'GiB', 'TiB']:
+            if human_size < 1024:
+                return f"{human_size:.1f}{unit}"
+            human_size /= 1024.0
+        return f"{human_size:.1f}PiB"
+
+    def draw(self):
+        self.ax.clear()
+        self.ax.axis('equal')
+        node = self.state['node']
+        items = [(n, c.size) for n, c in node.children.items()]
+        sizes = [s for _, s in items]
+        if not items:
+            self.ax.text(0.5, 0.5, 'No items to display', ha='center', va='center', transform=self.ax.transAxes)
+        else:
+            self.wedges = self.ax.pie(sizes, startangle=90, wedgeprops=dict(width=0.5))[0]
+            self.lines.clear(); self.label_data.clear()
+            for w, (n, s) in zip(self.wedges, items):
+                ang = (w.theta1 + w.theta2) / 2
+                x0 = 0.5 * np.cos(np.radians(ang)); y0 = 0.5 * np.sin(np.radians(ang))
+                side = 'right' if x0 >= 0 else 'left'
+                self.label_data.append({'name': n, 'size': s, 'x0': x0, 'y0': y0, 'side': side})
+            margin = 1.2
+            for side in ['right', 'left']:
+                grp = [d for d in self.label_data if d['side'] == side]
+                grp.sort(key=lambda d: d['y0'], reverse=True)
+                ys = np.linspace(margin, -margin, len(grp))
+                xt = 1.3 if side == 'right' else -1.3
+                ha = 'left' if side == 'right' else 'right'
+                for d, y in zip(grp, ys):
+                    txt = f"{d['name']}: {self.human_readable(d['size'])}"
+                    self.ax.text(xt, y, txt, ha=ha, va='center', fontsize=10)
+                    ln, = self.ax.plot([d['x0'], xt], [d['y0'], y], '-', lw=0.5, color='black')
+                    self.lines.append(ln)
+        lbl = f" (Total: {self.human_readable(node.size)})"
+        self.ax.set_title(self.state['title'] + lbl, fontsize=12)
+        self.fig.canvas.draw_idle()
+
+    def on_click(self, event):
+        if event.inaxes != self.ax: return
+        for i, w in enumerate(self.wedges):
+            if w.contains_point((event.x, event.y)):
+                name = list(self.state['node'].children)[i]
+                child = self.state['node'].children[name]
+                self.state['history'].append((self.state['node'], self.state['title']))
+                self.state['node'] = child; self.state['title'] = os.path.join(self.state['title'], name)
+                self.draw(); break
+
+    def on_key(self, event):
+        if event.key == 'backspace' and self.state['history']:
+            node, title = self.state['history'].pop()
+            self.state['node'] = node; self.state['title'] = title; self.draw()
+
+    def on_hover(self, event):
+        if event.inaxes != self.ax: return
+        redraw = False
+        for ln in self.lines:
+            hit, _ = ln.contains(event)
+            if hit and ln.get_color() != 'red': ln.set_color('red'); ln.set_linewidth(1.5); redraw = True
+            elif not hit and ln.get_color() != 'black': ln.set_color('black'); ln.set_linewidth(0.5); redraw = True
+        if redraw: self.fig.canvas.draw_idle()
+
+    def run(self):
+        self.fig.canvas.mpl_connect('button_press_event', self.on_click)
+        self.fig.canvas.mpl_connect('key_press_event', self.on_key)
+        self.fig.canvas.mpl_connect('motion_notify_event', self.on_hover)
+        self.draw(); plt.show()
+
+
+def diff_program():
+    logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+    parser = argparse.ArgumentParser(description='Diff with latest Borg archive')
+    parser.add_argument('repo', help='Path to Borg repository')
+    parser.add_argument('--exclude-from', dest='excl', help='Borg exclude file (fnmatch)', default=None)
+    args = parser.parse_args()
+
+    # find latest archive
+    cmd = ['borg', 'list', args.repo, '--last', '1', '--short']
+    logging.info(f"Listing last archive: {cmd}")
+    r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if r.returncode:
+        logging.error(r.stderr); sys.exit(r.returncode)
+    archive = r.stdout.strip()
+    logging.info(f"Using archive: {archive}")
+
+    # mount archive
+    mdir = tempfile.mkdtemp(prefix='borg_mount_')
+    cmd = ['borg', 'mount', f"{args.repo}::{archive}", mdir]
+    logging.info(f"Mounting archive: {cmd}")
+    r = subprocess.run(cmd, stderr=subprocess.PIPE)
+    if r.returncode:
+        logging.error(r.stderr); sys.exit(r.returncode)
+
+    # prepare rsync exclude
+    tmp_excl = None
+    if args.excl:
+        fd, tmp_excl = tempfile.mkstemp(prefix='rsync_excl_', text=True)
+        os.close(fd)
+        translate_borg_exclude_file(args.excl, tmp_excl)
+
+    try:
+        # diff home -> backup
+        src = os.getcwd(); dst = mdir
+        cmd = ['rsync', '-ran', '-i', '--out-format=%i %n']
+        if tmp_excl:
+            cmd.append(f"--exclude-from={tmp_excl}")
+        cmd += [os.path.join(src, ''), os.path.join(dst, '')]
+        logging.info(f"Rsync diff: {cmd}")
+        r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if r.returncode not in (0, 23):
+            logging.error(r.stderr); sys.exit(r.returncode)
+
+        allp: list[str] = []
+        newp: list[str] = []
+        for ln in r.stdout.splitlines():
+            if not ln: continue
+            ind, name = ln.split(' ', 1)
+            allp.append(name)
+            if len(ind) >= 11 and ind[0] == '>' and ind[2:11] == '+++++++++':
+                newp.append(name)
+        logging.info(f"Found {len(allp)} diffs, {len(newp)} new")
+
+        mode_paths = {'all': allp, 'new': newp}
+        plotter = DiskUsagePlotter(mode_paths)
+        for mode in plotter.modes:
+            cnt = len(mode_paths[mode])
+            logging.info(f"Sizing mode '{mode}' ({cnt} items)")
+            with tqdm(total=cnt, desc=f"Sizing ({mode})") as pr:
+                DiskUsagePlotter.calculate_sizes(plotter.roots[mode], progress=pr)
+        logging.info("Launching plot")
+        plotter.run()
+    finally:
+        # cleanup
+        subprocess.run(['borg', 'umount', mdir])
+        os.rmdir(mdir)
+        if tmp_excl and os.path.exists(tmp_excl):
+            os.remove(tmp_excl)
+
+if __name__ == '__main__':
+    diff_program()
+
