@@ -14,11 +14,12 @@ def parse_args():
     parser.add_argument('--archive_name', metavar='archive_name', default=default_archive_name, help=f'Archive name/formatter (default: {default_archive_name})')
     parser.add_argument('--exclude_file', metavar='exclude_file', default=default_exclude_file, type=str, nargs='?',
             help=f'File containing exclusion patterns (default: {default_exclude_file})')
+    parser.add_argument('--borg_flags', metavar='borg_flags', default=[], help='Extra flags to pass to borg', action='append')
     return parser.parse_args()
 
 
-def run_backup(borg_repo, archive_name, exclude_file):
-    args = ['borg', 'create', '--verbose', '--compression=auto,zstd,6', '--progress', '--stats']
+def run_backup(borg_repo, archive_name, exclude_file, borg_flags):
+    args = ['borg', 'create', '--verbose', '--compression=auto,zstd,6', '--progress', '--stats'] + borg_flags
     home_dir = os.getenv("HOME")
     args += [f'--exclude-from={exclude_file}', f'{borg_repo}::{archive_name}', '.']
     print(f'Running: {args} from {home_dir}')
@@ -28,4 +29,4 @@ def run_backup(borg_repo, archive_name, exclude_file):
 
 if __name__=='__main__':
     args = parse_args()
-    run_backup(args.borg_repo, args.archive_name, args.exclude_file)
+    run_backup(args.borg_repo, args.archive_name, args.exclude_file, args.borg_flags)
