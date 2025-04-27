@@ -121,6 +121,8 @@ aug CppFormatting
   au BufNewFile,BufRead *.cpp set formatprg=astyle\ -A2\ -s2\ -j
 aug END
 
+autocmd BufWritePre *.rs,*.c,*.cpp lua vim.lsp.buf.format()
+
 autocmd BufRead,BufNewFile *.sv,*.svh set filetype=systemverilog
 let g:projectManagerFileName = ".vimproject"
 
