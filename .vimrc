@@ -29,8 +29,12 @@ catch /^Vim\%((\a\+)\)\=:E117/ "catch error E117 (function unknown)
 endtry
 
 lua << EOF
-require'lspconfig'.rust_analyzer.setup{}
-require'lspconfig'.clangd.setup{}
+vim.lsp.enable('rust_analyzer')
+vim.lsp.enable('clangd')
+vim.lsp.enable('pyright')
+vim.lsp.enable('lua_ls')
+vim.lsp.enable('ts_ls')
+vim.lsp.enable('html')
 EOF
 
 " Now we can turn our filetype functionality back on
