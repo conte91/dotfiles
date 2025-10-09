@@ -19,4 +19,6 @@ export GIT_LFS_SKIP_SMUDGE=1
 export GPG_TTY=$(tty)
 todo
 
+which thefuck >& /dev/null && eval $(thefuck --alias)
+
 source /opt/miniconda3/etc/profile.d/conda.sh
