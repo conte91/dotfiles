@@ -143,6 +143,10 @@ function sssetup() {
    conda activate silverstream
    source venv/bin/activate
    export PYTHONPATH=src/
+   if command -v rehash >/dev/null 2>&1
+   then
+     rehash
+   fi
 }
 
 # vim: set filetype=sh et ts=3 sw=3 :
