@@ -29,8 +29,12 @@ catch /^Vim\%((\a\+)\)\=:E117/ "catch error E117 (function unknown)
 endtry
 
 lua << EOF
-require'lspconfig'.rust_analyzer.setup{}
-require'lspconfig'.clangd.setup{}
+vim.lsp.enable('rust_analyzer')
+vim.lsp.enable('clangd')
+vim.lsp.enable('pyright')
+vim.lsp.enable('lua_ls')
+vim.lsp.enable('ts_ls')
+vim.lsp.enable('html')
 EOF
 
 " Now we can turn our filetype functionality back on
@@ -61,8 +65,10 @@ imap <C-l> <ESC><C-l>
 inoremap <S-Tab> <ESC>==i
 
 "Quickfix window: scroll with <L>j, <L>k
-nnoremap <Leader>k :cp<CR>
-nnoremap <Leader>j :cn<CR>
+lua << EOF
+vim.keymap.set("n", "<Leader>k", vim.diagnostic.goto_next)
+vim.keymap.set("n", "<Leader>j", vim.diagnostic.goto_prev)
+EOF
 
 " Update file
 nnoremap <F5> <ESC>:e!<Return>
@@ -121,7 +127,7 @@ aug CppFormatting
   au BufNewFile,BufRead *.cpp set formatprg=astyle\ -A2\ -s2\ -j
 aug END
 
-autocmd BufWritePre *.rs,*.c,*.cpp lua vim.lsp.buf.format()
+autocmd BufWritePre *.rs,*.c,*.cpp,*.html,*.htm,*.tsx,*.css lua vim.lsp.buf.format()
 
 autocmd BufRead,BufNewFile *.sv,*.svh set filetype=systemverilog
 let g:projectManagerFileName = ".vimproject"
