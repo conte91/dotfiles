@@ -137,4 +137,12 @@ converti_per_madre() {
    fi
    ffmpeg -i "$1" -vcodec h264 -acodec mp3 "$2"
 }
-# vim: set filetype=sh :
+
+function sssetup() {
+   cd ~/My_Projects/ss/silver_stream
+   conda activate silverstream
+   source venv/bin/activate
+   export PYTHONPATH=src/
+}
+
+# vim: set filetype=sh et ts=3 sw=3 :
