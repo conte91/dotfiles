@@ -61,8 +61,10 @@ imap <C-l> <ESC><C-l>
 inoremap <S-Tab> <ESC>==i
 
 "Quickfix window: scroll with <L>j, <L>k
-nnoremap <Leader>k :cp<CR>
-nnoremap <Leader>j :cn<CR>
+lua << EOF
+vim.keymap.set("n", "<Leader>k", vim.diagnostic.goto_next)
+vim.keymap.set("n", "<Leader>j", vim.diagnostic.goto_prev)
+EOF
 
 " Update file
 nnoremap <F5> <ESC>:e!<Return>
