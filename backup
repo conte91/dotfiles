@@ -2,16 +2,20 @@
 
 import argparse
 import os
+from pathlib import Path
 import subprocess
 import sys
 
 
 def parse_args():
+    home = os.getenv("HOME")
+    if home is None:
+        raise RuntimeError("Couldn't infer home directory from $HOME")
     default_archive_name = '{hostname}_home_{now:%Y_%m_%d_%H_%M_%S}'
-    default_exclude_file = os.path.join(os.getenv("HOME"), "dotfiles", "borgbackup_exclude_list")
+    default_exclude_file = Path(home) / "dotfiles" / "borgbackup_exclude_list"
     parser = argparse.ArgumentParser(description='Runs Borgbackup on your home directory with proper flags.')
     parser.add_argument('borg_repo', help='Repository to write to')
-    parser.add_argument('--archive_name', metavar='archive_name', default=default_archive_name, help=f'Archive name/formatter (default: {default_archive_name})')
+    parser.add_argument('--archive_name', metavar='archive_name', default=default_archive_name, help=f'Archive name/formatter')
     parser.add_argument('--exclude_file', metavar='exclude_file', default=default_exclude_file, type=str, nargs='?',
             help=f'File containing exclusion patterns (default: {default_exclude_file})')
     parser.add_argument('--borg_flags', metavar='borg_flags', default=[], help='Extra flags to pass to borg', action='append')

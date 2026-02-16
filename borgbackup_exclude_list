@@ -83,3 +83,9 @@ Pictures/.dtrash/
 ./GDrive*/
 ./Android/
 ./*/wandb/
+./*/node_modules/
+./node_modules/
+./My_Projects/ss/*/eval/docs
+./*/.mypy_cache
+./*/.ruff_cache
+./.claude/projects/

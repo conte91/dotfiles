@@ -13,6 +13,9 @@ export HISTSIZE=10000
 # Don't pull INT_MAX data when cloning
 export GIT_LFS_SKIP_SMUDGE=1
 
+# Podman virtual docker daemon
+export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
+
 [ -f ~/.shrc.local ] && source ~/.shrc.local
 
 # Allow GPG signing to use your terminal for promping passwords etc.

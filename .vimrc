@@ -23,6 +23,9 @@ try
     Plugin 'surround.vim'
     Plugin 'AutoTag'
     Plugin 'rust-lang/rust.vim'
+    Plugin 'nvim-lua/plenary.nvim'
+    Plugin 'nvim-treesitter/nvim-treesitter'
+    Plugin 'olimorris/codecompanion.nvim'
     call vundle#end()
 catch /^Vim\%((\a\+)\)\=:E117/ "catch error E117 (function unknown)
     " Just pass if Vundle is not installed
@@ -35,6 +38,41 @@ vim.lsp.enable('pyright')
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('ts_ls')
 vim.lsp.enable('html')
+require("codecompanion").setup{
+adapters = {
+    http = {
+        ollama = function()
+        return require("codecompanion.adapters").extend("ollama", {
+            env = {
+                url = "http://gabonzo:11434",
+            },
+            headers = {
+                ["Content-Type"] = "application/json",
+            },
+            schema = {
+                num_ctx = {
+                    default = 20000,
+                },
+                model = {
+                    default = "hf.co/TheBloke/deepseek-coder-33B-instruct-GGUF:latest",
+                },
+                sync = {
+                    default = true,
+                },
+            },
+        })
+        end,
+    }
+    },
+    strategies = {
+        chat = {
+            adapter = "ollama",
+        },
+        inline = {
+            adapter = "ollama",
+        },
+    }
+}
 EOF
 
 " Now we can turn our filetype functionality back on
@@ -42,7 +80,7 @@ filetype plugin indent on
 
 syntax on
 set si
-"set et
+set et
 set ts=4
 set sw=4
 
