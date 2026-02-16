@@ -84,3 +84,9 @@ Pictures/.dtrash/
 ./My_Projects/ss/silver_stream/*env/
 ./GDrive*/
 ./Android/
+./*/node_modules/
+./node_modules/
+./My_Projects/ss/*/eval/docs
+./*/.mypy_cache
+./*/.ruff_cache
+./.claude/projects/
