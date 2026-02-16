@@ -145,4 +145,11 @@ function sssetup() {
    export PYTHONPATH=src/
 }
 
+function good_morning_vietnam() {
+   gcloud auth login
+   gcloud auth application-default login
+   gcloud auth configure-docker us-central1-docker.pkg.dev
+   gcloud auth print-access-token | podman login -u oauth2accesstoken --password-stdin us-central1-docker.pkg.dev
+}
+
 # vim: set filetype=sh et ts=3 sw=3 :
